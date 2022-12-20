@@ -1,0 +1,1 @@
+export const endPoint = "https://rickandmortyapi.com/api";
