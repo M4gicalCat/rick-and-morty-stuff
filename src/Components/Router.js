@@ -3,6 +3,7 @@ import {createBrowserRouter, RouterProvider,} from 'react-router-dom';
 import {Menu} from "./Menu";
 import {AllEpisodes} from "./AllEpisodes";
 import {Accueil} from "./Accueil";
+import {Spinner} from "./Spinner";
 
 
 export const Router = () => {
@@ -21,11 +22,11 @@ export const Router = () => {
         },
         {
           path: '/personnage',
-          element: <>Persos</>,
+          element: <Spinner/>,
         },
         {
           path: '/favoris',
-          element: <>Favs</>,
+          element: <Spinner/>,
         },
       ],
     },

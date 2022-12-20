@@ -3,9 +3,11 @@ import {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import {Button} from "./Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faArrowRight, faChevronDown, faChevronUp, faX} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faArrowRight, faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import {Title} from "./Title";
-import {Link} from "react-router-dom";
+import {SmallPersonnage as Perso} from "./Personnage";
+import {Spinner} from "./Spinner";
+import {useWindowSize} from "../hooks";
 
 const ListContainer = styled.div`
   display: flex;
@@ -33,100 +35,92 @@ const List = ({episodes}) => {
 
   return (
     <ListContainer>
-      {episodes.map(episode => <Episode key={episode.id} personnages={personnages} getPersonnages={getPersonnages}
-                                        episode={episode}/>)}
+      {episodes.length === 0 && <Spinner />}
+      {episodes.map(episode =>
+        <Episode
+          key={episode.id}
+          personnages={personnages}
+          getPersonnages={getPersonnages}
+          episode={episode}
+        />
+      )}
     </ListContainer>
   );
 };
 
-const CustomLink = styled(Link)`
-  text-decoration: none;
-  color: ${({theme}) => theme.color.title};
-
-  &:hover {
-    color: ${({theme}) => theme.color.hover};
-  }
-
-  display: block;
+const Card = styled.div`
+  padding: 1rem;
+  ${({open, theme}) => (open ? `
+    border: 1px solid ${theme.color.border};
+    border-radius: 5px;`
+  : 'padding-bottom: 0')}
 `;
 
-const Card = styled.div`
-  ${({open, theme}) => {
-    if (!open) return "";
-    return `
-            border: 1px solid ${theme.color.border};
-            border-radius: 5px;
-            padding: 1rem;
-        `;
-  }}
+const CardContainer = styled.div`
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem;
 `;
 
 const Episode = ({episode, getPersonnages}) => {
   const [open, setOpen] = useState(false);
+  const [persoOpen, setPersoOpen] = useState(false);
+  const width = useWindowSize();
+
   return (
     <Card open={open}>
-      <Title onClick={() => setOpen(o => !o)} style={{cursor: "pointer"}} small
-             align="left">{episode.episode} - {episode.name} <FontAwesomeIcon style={{float: "right"}}
-                                                                              icon={open ? faChevronUp : faChevronDown}/></Title>
+      <Title
+        onClick={() => setOpen(o => !o)}
+        style={{cursor: "pointer"}}
+        small
+        align="left"
+      >
+        {episode.episode} - {episode.name}
+        <FontAwesomeIcon style={{float: "right"}} icon={open ? faChevronUp : faChevronDown}/>
+      </Title>
+
       {open && (
         <div style={{marginLeft: "2rem"}}>
           <p>Sorti le {episode.air_date}</p>
           <p>{episode.characters.length} personnages :</p>
-          <Personnages getPersonnages={getPersonnages} urls={episode.characters}/>
+          <Personnages getPersonnages={getPersonnages} urls={episode.characters} open={persoOpen} setOpen={setPersoOpen} card={width >= 500}
+          />
         </div>
       )}
     </Card>
   );
 };
 
-const Personnages = ({urls, getPersonnages}) => {
+const Personnages = ({urls, getPersonnages, open, setOpen, card}) => {
   const [personnages, setPersonnages] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!open) return;
-    getPersonnages(urls.map(u => u.split("/").pop())).then(persos => {
+    setLoading(true);
+    getPersonnages(urls.map(u => u.split("/").pop())).then((persos) => {
       setPersonnages(persos);
-      console.log(persos);
+      setLoading(false);
     });
   }, [open, urls]);
 
-  useEffect(() => console.log(personnages), [personnages]);
+  const Container = card ? CardContainer : "div";
 
   return (
     <div>
-      <Button onClick={() => setOpen(o => !o)}>{open ? "Fermer" : "Ouvrir"}</Button>
+      <Button onClick={() => setOpen(o => !o)}>{"Charger les personnages"}</Button>
+      {loading && <Spinner />}
       {open && (
-        <div>
-          {personnages.map(perso => <Perso perso={perso} key={perso.id}/>)}
-        </div>
+        <Container>
+          {personnages.map(perso => <Perso perso={perso} card={card} key={perso.id}/>)}
+        </Container>
       )}
     </div>
   );
 };
 
-const Perso = ({perso}) => (
-  <div style={{display: "flex", flexDirection: "row"}}>
-    <PersoImage perso={perso}/>
-    <CustomLink to={`/personnage/${perso.id}`}>{perso.name}</CustomLink>
-  </div>
-);
-
-const PersoImage = ({perso}) => (
-  <div style={{position: "relative"}}>
-    <img src={perso.image} alt={""} style={{width: "50px", height: "50px",}}/>
-    {perso.status === "Dead" && <FontAwesomeIcon icon={faX} style={{
-      width: "50px",
-      height: "45px",
-      position: "absolute",
-      top: "0",
-      left: "0",
-      color: "red"
-    }}/>}
-  </div>
-)
-
 const Screen = styled.div`
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 `;
 

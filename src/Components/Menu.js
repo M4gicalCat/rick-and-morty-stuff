@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import styled, {ThemeProvider} from "styled-components";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faMoon, faSun, faX} from "@fortawesome/free-solid-svg-icons";
 import {useWindowSize} from "../hooks";
@@ -100,7 +100,7 @@ const PhoneMenu = ({theme, setTheme}) => {
 const LargeMenu = ({theme, setTheme}) => (
   <Nav>
     <Link to="/">Home</Link>
-    <Link to="/episode">Voir un épisode</Link>
+    <Link to="/episode">Voir les épisodes</Link>
     <Link to="/personnage">Voir un personnage</Link>
     <Link to="/favoris">Voir mes favoris</Link>
     <FontAwesomeIcon style={{width: "1rem"}} icon={theme === "light" ? faMoon : faSun}
@@ -118,7 +118,11 @@ const Background = styled.div`
 
 export const Menu = () => {
   const width = useWindowSize();
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
   return (
     <ThemeProvider theme={themes[theme]}>
       {(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}
