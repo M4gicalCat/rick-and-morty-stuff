@@ -36,6 +36,7 @@ const CardContainer = styled.div`
   transition-duration: .18s;
   &:hover {
     transform: scale(1.05);
+    box-shadow: 0 0 10px 0 ${({theme}) => theme.color.card.shadow};
   }
   >img {
     max-width: 80%;
@@ -61,13 +62,35 @@ const Card = ({perso}) => (
   </CardContainer>
 );
 
+const PersoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-top: 1rem;
+  > img {
+    border-radius: 3px;
+  }
+  > div {
+    margin-left: 1rem;
+    > p {
+      color: ${({theme}) => theme.color.dark};
+      font-size: .8rem;
+    }
+  }
+`;
+
 export const SmallPersonnage = ({perso, card}) => card ? (
   <Card perso={perso}/>
-) :(
-  <div style={{display: "flex", flexDirection: "row"}}>
+) : (
+  <PersoContainer>
     <img src={perso.image} alt={""} style={{width: "50px", height: "50px"}}/>
-    <CustomLink to={`/personnage/${perso.id}`} style={{color: perso.status === "Dead" ? "red" : undefined}}>{perso.name}</CustomLink>
-  </div>
+    <div>
+      <CustomLink to={`/personnage/${perso.id}`} style={{color: perso.status === "Dead" ? "red" : undefined}}>{perso.name}</CustomLink>
+      <p>{perso.species}{perso.type && ` - ${perso.type}`}</p>
+    </div>
+    <Heart perso={perso}/>
+  </PersoContainer>
 );
 
 const Heart = ({perso}) => {

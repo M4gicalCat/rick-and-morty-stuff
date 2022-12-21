@@ -16,7 +16,7 @@ const Nav = styled.nav`
   background-color: #282c34;
   color: white;
   height: max-content;
-
+  z-index: 9999;
   & > * {
     padding: 1rem;
     text-decoration: none;
@@ -39,7 +39,7 @@ export const SmallNav = styled.nav`
   background-color: #282c34;
   color: white;
   height: max-content;
-
+  z-index: 9999;
   & > * {
     padding: 1rem;
     text-decoration: none;

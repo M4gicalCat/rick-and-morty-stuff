@@ -26,7 +26,6 @@ const List = ({episodes}) => {
     if (toFetch.length > 0) {
       const data = await (await fetch(`${endPoint}/character/[${toFetch.join(",")}]`)).json();
       for (const perso of data) {
-        console.log(perso);
         personnages.current.set(perso.id, perso);
       }
     }
@@ -120,8 +119,14 @@ const Personnages = ({urls, getPersonnages, open, setOpen, card}) => {
 };
 
 const Screen = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
+  @media (min-width: 600px) {
+    margin: 0 2rem;
+    width: calc(100% - 4rem);
+  }
+  @media (max-width: 600px) {
+    margin: 0 1rem;
+    width: calc(100% - 2rem);
+  }
 `;
 
 const InfoContainer = styled.div`
