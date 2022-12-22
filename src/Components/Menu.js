@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import styled, {ThemeProvider} from "styled-components";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faMoon, faSun, faX} from "@fortawesome/free-solid-svg-icons";
 import {useWindowSize} from "../hooks";
@@ -49,7 +49,6 @@ export const SmallNav = styled.nav`
       color: ${({theme}) => theme.color.hover};
     }
   }
-
 `;
 
 const List = styled.div`
@@ -58,6 +57,7 @@ const List = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.25s ease-in-out;
 
   & > * {
     padding: 1rem;
@@ -67,8 +67,6 @@ const List = styled.div`
     border-bottom: 1px solid #63cbfb;
     width: 100%;
   }
-
-  animation: fadeIn 0.25s ease-in-out;
 `;
 
 const PhoneMenu = ({theme, setTheme}) => {
@@ -91,8 +89,10 @@ const PhoneMenu = ({theme, setTheme}) => {
           <FontAwesomeIcon icon={faBars} onClick={() => setOpen(true)}/>
         </>
       )}
-      <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun}
-                       onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}/>
+      <FontAwesomeIcon
+        icon={theme === "light" ? faMoon : faSun}
+        onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
+      />
     </SmallNav>
   );
 }
@@ -103,8 +103,11 @@ const LargeMenu = ({theme, setTheme}) => (
     <Link to="/episode">Voir les épisodes</Link>
     <Link to="/personnage">Voir un personnage</Link>
     <Link to="/favoris">Voir mes favoris</Link>
-    <FontAwesomeIcon style={{width: "1rem"}} icon={theme === "light" ? faMoon : faSun}
-                     onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}/>
+    <FontAwesomeIcon
+      style={{width: "1rem"}}
+      icon={theme === "light" ? faMoon : faSun}
+      onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
+    />
   </Nav>
 );
 
@@ -127,7 +130,7 @@ export const Menu = () => {
     <ThemeProvider theme={themes[theme]}>
       {(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}
       <Background>
-        <div style={{height: "2rem"}}/>
+        <div style={{height: "5rem"}}/>
         <Outlet/>
       </Background>
     </ThemeProvider>

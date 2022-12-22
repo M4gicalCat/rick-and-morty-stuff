@@ -14,6 +14,7 @@ const ListContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  margin-bottom: 5rem;
 `;
 
 const List = ({episodes}) => {
