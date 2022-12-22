@@ -1,0 +1,15 @@
+{
+  "short_name": "Rick and Morty blog",
+  "name": "School project about Rick and Morty",
+  "icons": [
+    {
+      "src": "ram.png",
+      "sizes": "64x64 170x111",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
