@@ -1,10 +1,12 @@
-import React from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {ActionButton} from "./ActionButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons/faHeart";
 import {faHeartBroken} from "@fortawesome/free-solid-svg-icons/faHeartBroken";
+import {endPoint} from "../Model";
+import {toggleFavori} from "../store/FavorisSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 const favorites = new Set();
 if (localStorage.getItem("favorites")) {
@@ -14,6 +16,21 @@ if (localStorage.getItem("favorites")) {
 } else {
   localStorage.setItem("favorites", "");
 }
+
+const personnages = new Map();
+export const getPersonnages = async (ids) => {
+  const toFetch = [];
+  for (const id of ids) {
+    if (!personnages.has(id)) toFetch.push(id);
+  }
+  if (toFetch.length > 0) {
+    const data = await (await fetch(`${endPoint}/character/[${toFetch.join(",")}]`)).json();
+    for (const perso of data) {
+      personnages.set(perso.id, perso);
+    }
+  }
+  return ids.map(id => personnages.get(+id));
+};
 
 const CustomLink = styled(Link)`
   text-decoration: underline;
@@ -94,12 +111,13 @@ export const SmallPersonnage = ({perso, card}) => card ? (
 );
 
 const Heart = ({perso}) => {
-  const [isFavorite, setIsFavorite] = React.useState(isFavori(perso.id));
+  const favoris = useSelector(s => s.favoris.favoris);
+  const dispatch = useDispatch();
+  const isFavorite = favoris.includes(perso.id);
   return (
     <ActionButton style={{position: "absolute", top: "1rem", right: "1rem"}}>
       <FontAwesomeIcon icon={isFavorite ? faHeart : faHeartBroken} onClick={() => {
-        toggleFavori(perso.id);
-        setIsFavorite(f => !f);
+        dispatch(toggleFavori(perso.id));
       }} style={{ color: isFavorite  ? "red" : "grey", fontSize: "1.2rem" }}/>
     </ActionButton>
   );
@@ -107,11 +125,4 @@ const Heart = ({perso}) => {
 
 export const isFavori = (id) => favorites.has(id);
 
-export const toggleFavori = (id) => {
-  if (favorites.has(id)) {
-    favorites.delete(id);
-  } else {
-    favorites.add(id);
-  }
-  localStorage.setItem("favorites", [...favorites].join(","));
-}
+export const getFavorites = () => [...favorites];

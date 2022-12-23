@@ -49,7 +49,6 @@ export const SmallNav = styled.nav`
       color: ${({theme}) => theme.color.hover};
     }
   }
-
 `;
 
 const List = styled.div`
@@ -58,6 +57,7 @@ const List = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.25s ease-in-out;
 
   & > * {
     padding: 1rem;
@@ -67,8 +67,6 @@ const List = styled.div`
     border-bottom: 1px solid #63cbfb;
     width: 100%;
   }
-
-  animation: fadeIn 0.25s ease-in-out;
 `;
 
 const PhoneMenu = ({theme, setTheme}) => {
@@ -91,8 +89,10 @@ const PhoneMenu = ({theme, setTheme}) => {
           <FontAwesomeIcon icon={faBars} onClick={() => setOpen(true)}/>
         </>
       )}
-      <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun}
-                       onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}/>
+      <FontAwesomeIcon
+        icon={theme === "light" ? faMoon : faSun}
+        onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
+      />
     </SmallNav>
   );
 }
@@ -101,10 +101,13 @@ const LargeMenu = ({theme, setTheme}) => (
   <Nav>
     <Link to="/">Home</Link>
     <Link to="/episode">Voir les épisodes</Link>
-    <Link to="/personnage">Voir un personnage</Link>
+    <Link to="/personnages">Voir les personnages</Link>
     <Link to="/favoris">Voir mes favoris</Link>
-    <FontAwesomeIcon style={{width: "1rem"}} icon={theme === "light" ? faMoon : faSun}
-                     onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}/>
+    <FontAwesomeIcon
+      style={{width: "1rem"}}
+      icon={theme === "light" ? faMoon : faSun}
+      onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
+    />
   </Nav>
 );
 
@@ -112,8 +115,26 @@ const Background = styled.div`
   background-color: ${props => props.theme.background};
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
   color: ${props => props.theme.color.text};
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({theme}) => theme.color.scrollbar.thumb};
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${({theme}) => theme.color.scrollbar.hover};
+  }
 `;
 
 export const Menu = () => {
@@ -127,7 +148,7 @@ export const Menu = () => {
     <ThemeProvider theme={themes[theme]}>
       {(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}
       <Background>
-        <div style={{height: "2rem"}}/>
+        <div style={{height: "5rem"}}/>
         <Outlet/>
       </Background>
     </ThemeProvider>
