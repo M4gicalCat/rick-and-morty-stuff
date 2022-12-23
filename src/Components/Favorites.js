@@ -29,7 +29,7 @@ export const Favorites = () => {
     <div>
       <Title>Mes personnages favoris</Title>
       {loading && <Spinner />}
-      {personnages.length > 0 && !loading && (
+      {personnages.length === 0 && !loading && (
         <div>Vous n'avez aucun personnage favori, allez donc en choisir quelques uns.</div>
       )}
       <Container>
