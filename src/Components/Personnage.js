@@ -1,4 +1,3 @@
-import React, {useRef} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {ActionButton} from "./ActionButton";
@@ -6,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons/faHeart";
 import {faHeartBroken} from "@fortawesome/free-solid-svg-icons/faHeartBroken";
 import {endPoint} from "../Model";
+import {useState} from "react";
 
 export let refreshFavs = null;
 
@@ -112,7 +112,7 @@ export const SmallPersonnage = ({perso, card}) => card ? (
 );
 
 const Heart = ({perso}) => {
-  const [isFavorite, setIsFavorite] = React.useState(isFavori(perso.id));
+  const [isFavorite, setIsFavorite] = useState(isFavori(perso.id));
   return (
     <ActionButton style={{position: "absolute", top: "1rem", right: "1rem"}}>
       <FontAwesomeIcon icon={isFavorite ? faHeart : faHeartBroken} onClick={() => {

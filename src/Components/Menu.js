@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import styled, {ThemeProvider} from "styled-components";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faMoon, faSun, faX} from "@fortawesome/free-solid-svg-icons";
 import {useWindowSize} from "../hooks";
