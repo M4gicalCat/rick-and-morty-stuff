@@ -115,8 +115,26 @@ const Background = styled.div`
   background-color: ${props => props.theme.background};
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
   color: ${props => props.theme.color.text};
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({theme}) => theme.color.scrollbar.thumb};
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${({theme}) => theme.color.scrollbar.hover};
+  }
 `;
 
 export const Menu = () => {

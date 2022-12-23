@@ -5,9 +5,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons/faHeart";
 import {faHeartBroken} from "@fortawesome/free-solid-svg-icons/faHeartBroken";
 import {endPoint} from "../Model";
-import {useState} from "react";
-
-export let refreshFavs = null;
+import {toggleFavori} from "../store/FavorisSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 const favorites = new Set();
 if (localStorage.getItem("favorites")) {
@@ -112,27 +111,18 @@ export const SmallPersonnage = ({perso, card}) => card ? (
 );
 
 const Heart = ({perso}) => {
-  const [isFavorite, setIsFavorite] = useState(isFavori(perso.id));
+  const favoris = useSelector(s => s.favoris.favoris);
+  const dispatch = useDispatch();
+  const isFavorite = favoris.includes(perso.id);
   return (
     <ActionButton style={{position: "absolute", top: "1rem", right: "1rem"}}>
       <FontAwesomeIcon icon={isFavorite ? faHeart : faHeartBroken} onClick={() => {
-        toggleFavori(perso.id);
-        setIsFavorite(f => !f);
+        dispatch(toggleFavori(perso.id));
       }} style={{ color: isFavorite  ? "red" : "grey", fontSize: "1.2rem" }}/>
     </ActionButton>
   );
 }
 
 export const isFavori = (id) => favorites.has(id);
-
-export const toggleFavori = (id) => {
-  if (favorites.has(id)) {
-    favorites.delete(id);
-  } else {
-    favorites.add(id);
-  }
-  localStorage.setItem("favorites", [...favorites].join(","));
-  refreshFavs = Date.now();
-}
 
 export const getFavorites = () => [...favorites];

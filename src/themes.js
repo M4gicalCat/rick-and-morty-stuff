@@ -15,6 +15,10 @@ export const themes = {
       card: {
         background: "#f5f5ff",
         shadow: "#aaa"
+      },
+      scrollbar: {
+        thumb: "#aaa",
+        hover: "#888"
       }
     },
   },
@@ -34,6 +38,10 @@ export const themes = {
       card: {
         background: "#3b3b3b",
         shadow: "#555"
+      },
+      scrollbar: {
+        thumb: "#555",
+        hover: "#777"
       }
     },
   }
