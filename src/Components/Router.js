@@ -4,6 +4,7 @@ import {Menu} from "./Menu";
 import {AllEpisodes} from "./AllEpisodes";
 import {Accueil} from "./Accueil";
 import {Spinner} from "./Spinner";
+import {Favorites} from "./Favorites";
 
 
 export const Router = () => {
@@ -21,12 +22,12 @@ export const Router = () => {
           element: <AllEpisodes/>,
         },
         {
-          path: '/personnage',
+          path: '/personnages',
           element: <Spinner/>,
         },
         {
           path: '/favoris',
-          element: <Spinner/>,
+          element: <Favorites/>,
         },
       ],
     },

@@ -5,7 +5,7 @@ import {Button} from "./Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight, faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import {Title} from "./Title";
-import {SmallPersonnage as Perso} from "./Personnage";
+import {getPersonnages, SmallPersonnage as Perso} from "./Personnage";
 import {Spinner} from "./Spinner";
 import {useWindowSize} from "../hooks";
 
@@ -18,29 +18,12 @@ const ListContainer = styled.div`
 `;
 
 const List = ({episodes}) => {
-  const personnages = useRef(new Map());
-  const getPersonnages = async (ids) => {
-    const toFetch = [];
-    for (const id of ids) {
-      if (!personnages.current.has(id)) toFetch.push(id);
-    }
-    if (toFetch.length > 0) {
-      const data = await (await fetch(`${endPoint}/character/[${toFetch.join(",")}]`)).json();
-      for (const perso of data) {
-        personnages.current.set(perso.id, perso);
-      }
-    }
-    return ids.map(id => personnages.current.get(+id));
-  };
-
   return (
     <ListContainer>
       {episodes.length === 0 && <Spinner />}
       {episodes.map(episode =>
         <Episode
           key={episode.id}
-          personnages={personnages}
-          getPersonnages={getPersonnages}
           episode={episode}
         />
       )}
@@ -51,6 +34,7 @@ const List = ({episodes}) => {
 const Card = styled.div`
   padding: 1rem;
   ${({open, theme}) => (open ? `
+    margin-bottom: 1rem;
     border: 1px solid ${theme.color.border};
     border-radius: 5px;`
   : 'padding-bottom: 0')}
@@ -63,9 +47,8 @@ const CardContainer = styled.div`
   grid-gap: 1rem;
 `;
 
-const Episode = ({episode, getPersonnages}) => {
+const Episode = ({episode}) => {
   const [open, setOpen] = useState(false);
-  const [persoOpen, setPersoOpen] = useState(false);
   const width = useWindowSize();
 
   return (
@@ -84,7 +67,7 @@ const Episode = ({episode, getPersonnages}) => {
         <div style={{marginLeft: "2rem"}}>
           <p>Sorti le {episode.air_date}</p>
           <p>{episode.characters.length} personnages :</p>
-          <Personnages getPersonnages={getPersonnages} urls={episode.characters} open={persoOpen} setOpen={setPersoOpen} card={width >= 500}
+          <Personnages urls={episode.characters} card={width >= 500}
           />
         </div>
       )}
@@ -92,25 +75,28 @@ const Episode = ({episode, getPersonnages}) => {
   );
 };
 
-const Personnages = ({urls, getPersonnages, open, setOpen, card}) => {
+const Personnages = ({urls, card}) => {
   const [personnages, setPersonnages] = useState([]);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    if (!open) return;
+  const [loaded, setLoaded] = useState(false);
+
+  const load = () => {
+    if (loaded || loading) return;
     setLoading(true);
     getPersonnages(urls.map(u => u.split("/").pop())).then((persos) => {
       setPersonnages(persos);
       setLoading(false);
+      setLoaded(true);
     });
-  }, [open, urls]);
+  }
 
   const Container = card ? CardContainer : "div";
 
   return (
     <div>
-      <Button onClick={() => setOpen(o => !o)}>{"Charger les personnages"}</Button>
+      {!loaded && <Button onClick={load}>{`Montrer les ${urls.length} personnages`}</Button>}
       {loading && <Spinner />}
-      {open && (
+      {personnages.length > 0 && (
         <Container>
           {personnages.map(perso => <Perso perso={perso} card={card} key={perso.id}/>)}
         </Container>

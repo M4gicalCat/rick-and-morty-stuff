@@ -101,7 +101,7 @@ const LargeMenu = ({theme, setTheme}) => (
   <Nav>
     <Link to="/">Home</Link>
     <Link to="/episode">Voir les épisodes</Link>
-    <Link to="/personnage">Voir un personnage</Link>
+    <Link to="/personnages">Voir les personnages</Link>
     <Link to="/favoris">Voir mes favoris</Link>
     <FontAwesomeIcon
       style={{width: "1rem"}}
