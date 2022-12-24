@@ -11,6 +11,7 @@ export const themes = {
       button: {
         background: "#63cbfb",
         text: "#fff",
+        disabled: "#ccc",
       },
       card: {
         background: "#f5f5ff",
@@ -40,6 +41,7 @@ export const themes = {
       button: {
         background: "#7412e9",
         text: "#fff",
+        disabled: "#888",
       },
       card: {
         background: "#3b3b3b",

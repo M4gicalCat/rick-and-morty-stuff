@@ -6,6 +6,7 @@ import {Accueil} from "./Accueil";
 import {Spinner} from "./Spinner";
 import {Favorites} from "./Favorites";
 import {Episode} from "./Episode";
+import {AllPersonnages} from "./AllPersonnages";
 
 
 export const Router = () => {
@@ -28,11 +29,11 @@ export const Router = () => {
         },
         {
           path: 'personnages',
+          element: <AllPersonnages/>,
+        },
+        {
+          path: 'personnages/:id',
           element: <Spinner/>,
-          children: [{
-            path: ':id',
-            element: <Spinner/>,
-          }],
         },
         {
           path: 'favoris',
