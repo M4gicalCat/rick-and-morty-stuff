@@ -73,8 +73,8 @@ const Card = ({perso}) => (
     </CustomLink>
     <img src={perso.image} alt={""}/>
     <p>Sexe : {perso.gender}</p>
-    {perso.type && <p>Type : {perso.type}</p>}
     <p>Espèce : {perso.species}</p>
+    {perso.type && <p>Type : {perso.type}</p>}
     <Heart perso={perso}/>
   </CardContainer>
 );

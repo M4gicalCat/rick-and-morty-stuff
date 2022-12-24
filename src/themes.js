@@ -19,6 +19,12 @@ export const themes = {
       scrollbar: {
         thumb: "#aaa",
         hover: "#888"
+      },
+      info: {
+        background: "#00aeff",
+        border: "#007bff",
+        text: "#fff",
+        circle: "#44eeff",
       }
     },
   },
@@ -42,6 +48,12 @@ export const themes = {
       scrollbar: {
         thumb: "#555",
         hover: "#777"
+      },
+      info: {
+        background: "#00aeff",
+        border: "#007bff",
+        text: "#000",
+        circle: "#22ceff",
       }
     },
   }
