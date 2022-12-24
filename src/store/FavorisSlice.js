@@ -3,7 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 const getFavs = () => {
   const str = localStorage.getItem("favorites");
   if (str?.length) {
-    return str.split(",").map(Number);
+    return [...new Set(str.split(",").map(Number))];
   }
   return [];
 }

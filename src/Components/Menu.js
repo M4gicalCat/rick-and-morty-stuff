@@ -80,7 +80,7 @@ const PhoneMenu = ({theme, setTheme}) => {
           <List>
             <Link onClick={() => setOpen(false)} to="/">Accueil</Link>
             <Link onClick={() => setOpen(false)} to="/episode">Episodes</Link>
-            <Link onClick={() => setOpen(false)} to="/personnage">Personnages</Link>
+            <Link onClick={() => setOpen(false)} to="/personnages">Personnages</Link>
             <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
           </List>
         </>
@@ -99,7 +99,7 @@ const PhoneMenu = ({theme, setTheme}) => {
 
 const LargeMenu = ({theme, setTheme}) => (
   <Nav>
-    <Link to="/">Home</Link>
+    <Link to="/">Accueil</Link>
     <Link to="/episode">Voir les épisodes</Link>
     <Link to="/personnages">Voir les personnages</Link>
     <Link to="/favoris">Voir mes favoris</Link>

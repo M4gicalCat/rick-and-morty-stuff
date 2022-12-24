@@ -8,15 +8,6 @@ import {endPoint} from "../Model";
 import {toggleFavori} from "../store/FavorisSlice";
 import {useDispatch, useSelector} from "react-redux";
 
-const favorites = new Set();
-if (localStorage.getItem("favorites")) {
-  for (const id of localStorage.getItem("favorites").split(",")) {
-    favorites.add(+id);
-  }
-} else {
-  localStorage.setItem("favorites", "");
-}
-
 const personnages = new Map();
 export const getPersonnages = async (ids) => {
   const toFetch = [];
@@ -31,6 +22,12 @@ export const getPersonnages = async (ids) => {
   }
   return ids.map(id => personnages.get(+id));
 };
+
+export const addPersonnages = (persos) => {
+  for (const perso of persos) {
+    personnages.set(perso.id, perso);
+  }
+}
 
 const CustomLink = styled(Link)`
   text-decoration: underline;
@@ -122,7 +119,3 @@ const Heart = ({perso}) => {
     </ActionButton>
   );
 }
-
-export const isFavori = (id) => favorites.has(id);
-
-export const getFavorites = () => [...favorites];

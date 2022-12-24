@@ -31,7 +31,7 @@ export const Favorites = () => {
       <Title>Mes personnages favoris</Title>
       {loading && <Spinner />}
       {personnages.length === 0 && !loading && (
-        <div style={{width: "100%", display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "3rem"}}>
+        <div style={{width: "calc(100% - 4rem)", display: "flex", flexDirection: "row", justifyContent: "center", margin: "3rem 2rem 0 2rem"}}>
           <Info>Vous n'avez aucun personnage favori, allez donc en choisir quelques uns.</Info>
         </div>
         )}
