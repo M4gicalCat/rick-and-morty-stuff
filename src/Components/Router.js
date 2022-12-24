@@ -3,25 +3,25 @@ import {createBrowserRouter, RouterProvider,} from 'react-router-dom';
 import {Menu} from "./Menu";
 import {AllEpisodes} from "./AllEpisodes";
 import {Accueil} from "./Accueil";
-import {Spinner} from "./Spinner";
 import {Favorites} from "./Favorites";
 import {Episode} from "./Episode";
 import {AllPersonnages} from "./AllPersonnages";
+import {Personnage} from "./Personnage";
 
 
 export const Router = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Menu/>,
+      element: <Menu />,
       children: [
         {
           path: '/',
-          element: <Accueil/>,
+          element: <Accueil />,
         },
         {
           path: 'episode',
-          element: <AllEpisodes/>,
+          element: <AllEpisodes />,
         },
         {
           path: 'episode/:id',
@@ -29,19 +29,19 @@ export const Router = () => {
         },
         {
           path: 'personnages',
-          element: <AllPersonnages/>,
+          element: <AllPersonnages />,
         },
         {
           path: 'personnages/:id',
-          element: <Spinner/>,
+          element: <Personnage />,
         },
         {
           path: 'favoris',
-          element: <Favorites/>,
+          element: <Favorites />,
         },
       ],
     },
   ]);
 
-  return <RouterProvider router={router}/>;
+  return <RouterProvider router={router} />;
 };
