@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {themes} from "../themes";
 
 const InfoContainer = styled.div`
   width: ${({fullWidth}) => fullWidth ? "100%" : "max-content"};
@@ -9,9 +10,11 @@ const InfoContainer = styled.div`
   color: ${({theme}) => theme.color.info.text};
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   box-shadow: 0 0 7px 0 ${({theme}) => theme.color.info.background};
-  font-weight: bold;
+  button {
+    background-color: ${themes.dark.color.button.background};
+  }
 `;
 
 const Circle = styled.div`
@@ -26,6 +29,7 @@ const Circle = styled.div`
   text-align: center;
   padding: .25rem;
   font-family: sans-serif;
+  align-self: flex-end;
 `;
 
 export const Info = ({children, fullWidth}) => (

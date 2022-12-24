@@ -123,12 +123,12 @@ const InfoContainer = styled.div`
   margin: 0 auto;
 `;
 
-const Infos = ({infos, setLink}) => (
+export const Infos = ({infos, setLink}) => (
   <InfoContainer>
-    <Button onClick={() => setLink(infos.prev)}>
+    <Button disabled={!infos.prev} onClick={() => setLink(infos.prev)}>
       <FontAwesomeIcon icon={faArrowLeft}/>
     </Button>
-    <Button onClick={() => setLink(infos.next)}>
+    <Button disabled={!infos.next} onClick={() => setLink(infos.next)}>
       <FontAwesomeIcon icon={faArrowRight}/>
     </Button>
   </InfoContainer>
