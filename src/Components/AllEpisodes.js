@@ -47,8 +47,8 @@ const CardContainer = styled.div`
   grid-gap: 1rem;
 `;
 
-const Episode = ({episode}) => {
-  const [open, setOpen] = useState(false);
+export const Episode = ({episode, defaultOpen}) => {
+  const [open, setOpen] = useState(!!defaultOpen);
   const width = useWindowSize();
 
   return (
@@ -67,15 +67,14 @@ const Episode = ({episode}) => {
         <div style={{marginLeft: "2rem"}}>
           <p>Sorti le {episode.air_date}</p>
           <p>{episode.characters.length} personnages :</p>
-          <Personnages urls={episode.characters} card={width >= 500}
-          />
+          <Personnages urls={episode.characters} card={width >= 500} defaultOpen={defaultOpen} />
         </div>
       )}
     </Card>
   );
 };
 
-const Personnages = ({urls, card}) => {
+const Personnages = ({urls, card, defaultOpen}) => {
   const [personnages, setPersonnages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -88,13 +87,14 @@ const Personnages = ({urls, card}) => {
       setLoading(false);
       setLoaded(true);
     });
-  }
+  };
+  if (defaultOpen) load();
 
   const Container = card ? CardContainer : "div";
 
   return (
     <div>
-      {!loaded && <Button onClick={load}>{`Montrer les ${urls.length} personnages`}</Button>}
+      {!loaded && !defaultOpen && <Button onClick={load}>{`Montrer les ${urls.length} personnages`}</Button>}
       {loading && <Spinner />}
       {personnages.length > 0 && (
         <Container>
