@@ -4,6 +4,7 @@ import {getPersonnages, SmallPersonnage} from "./Personnage";
 import {useSelector} from "react-redux";
 import styled from "styled-components";
 import {Spinner} from "./Spinner";
+import {Info} from "./Info";
 
 const Container = styled.div`
   display: grid;
@@ -30,8 +31,10 @@ export const Favorites = () => {
       <Title>Mes personnages favoris</Title>
       {loading && <Spinner />}
       {personnages.length === 0 && !loading && (
-        <div>Vous n'avez aucun personnage favori, allez donc en choisir quelques uns.</div>
-      )}
+        <div style={{width: "100%", display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "3rem"}}>
+          <Info>Vous n'avez aucun personnage favori, allez donc en choisir quelques uns.</Info>
+        </div>
+        )}
       <Container>
         {personnages.map(favori => <SmallPersonnage key={favori.id} card perso={favori} />)}
       </Container>
