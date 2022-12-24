@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {ActionButton} from "./ActionButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons/faHeart";
@@ -7,6 +7,8 @@ import {faHeartBroken} from "@fortawesome/free-solid-svg-icons/faHeartBroken";
 import {endPoint} from "../Model";
 import {toggleFavori} from "../store/FavorisSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {Spinner} from "./Spinner";
+import {useEffect, useState} from "react";
 
 const personnages = new Map();
 export const getPersonnages = async (ids) => {
@@ -65,7 +67,7 @@ const CardContainer = styled.div`
 
 const Card = ({perso}) => (
   <CardContainer>
-    <CustomLink style={{marginBottom: "1rem", color: perso.status === "Dead" ? "red" : undefined}} to={`/personnage/${perso.id}`}>
+    <CustomLink style={{marginBottom: "1rem", color: perso.status === "Dead" ? "red" : undefined}} to={`/personnages/${perso.id}`}>
       {perso.name}
     </CustomLink>
     <img src={perso.image} alt={""}/>
@@ -100,7 +102,7 @@ export const SmallPersonnage = ({perso, card}) => card ? (
   <PersoContainer>
     <img src={perso.image} alt={""} style={{width: "50px", height: "50px"}}/>
     <div>
-      <CustomLink to={`/personnage/${perso.id}`} style={{color: perso.status === "Dead" ? "red" : undefined}}>{perso.name}</CustomLink>
+      <CustomLink to={`/personnages/${perso.id}`} style={{color: perso.status === "Dead" ? "red" : undefined}}>{perso.name}</CustomLink>
       <p>{perso.species}{perso.type && ` - ${perso.type}`}</p>
     </div>
     <Heart perso={perso}/>
@@ -119,3 +121,25 @@ const Heart = ({perso}) => {
     </ActionButton>
   );
 }
+
+export const Personnage = () => {
+  const {id} = useParams();
+  const [perso, setPerso] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const load = async () => {
+    getPersonnages([id]).then(([p]) => setPerso(p));
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    load().then(() => setLoading(false));
+  }, [id]);
+  return (
+    <>
+      {loading && <Spinner/>}
+      {perso && (
+        <SmallPersonnage perso={perso} card />
+      )}
+    </>
+  );
+};
