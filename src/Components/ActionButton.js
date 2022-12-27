@@ -9,7 +9,4 @@ export const ActionButton = styled.button`
   cursor: pointer;
   outline: none;
   transition-duration: .25s;
-  &:hover {
-    transform: scale(1.3);
-  }
 `;
