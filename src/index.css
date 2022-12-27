@@ -22,3 +22,19 @@ code {
     opacity: 1;
   }
 }
+
+@keyframes beatingAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.beating {
+  animation: beatingAnimation 1s infinite;
+}

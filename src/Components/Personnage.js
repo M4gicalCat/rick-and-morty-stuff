@@ -9,6 +9,8 @@ import {toggleFavori} from "../store/FavorisSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {Spinner} from "./Spinner";
 import {useEffect, useState} from "react";
+import {Title} from "./Title";
+import {getEpisodes} from "./Episode";
 
 const personnages = new Map();
 export const getPersonnages = async (ids) => {
@@ -109,25 +111,65 @@ export const SmallPersonnage = ({perso, card}) => card ? (
   </PersoContainer>
 );
 
-const Heart = ({perso}) => {
+const Heart = ({perso, big, style}) => {
   const favoris = useSelector(s => s.favoris.favoris);
   const dispatch = useDispatch();
   const isFavorite = favoris.includes(perso.id);
   return (
-    <ActionButton style={{position: "absolute", top: "1rem", right: "1rem"}}>
+    <ActionButton className={isFavorite ? "beating" : undefined} style={{position: "absolute", top: "1rem", right: "1rem", ...style}}>
       <FontAwesomeIcon icon={isFavorite ? faHeart : faHeartBroken} onClick={() => {
         dispatch(toggleFavori(perso.id));
-      }} style={{ color: isFavorite  ? "red" : "grey", fontSize: "1.2rem" }}/>
+      }} style={{ color: isFavorite  ? "red" : "grey", fontSize: big ? "2rem" : "1.2rem" }}/>
     </ActionButton>
   );
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  > .grid {
+    @media (min-width: 700px) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+`;
+
+const Outline = styled.div`
+  padding: 1rem 1.7rem;
+  border: 1px solid ${({theme}) => theme.color.border};
+  border-radius: 12px;
+  margin: 1rem;
+  text-align: center;
+  > h1{
+    margin: 0;
+    padding: 1rem 1rem 1.5rem 1rem;
+    border-bottom: 1px solid ${({theme}) => theme.color.title};
+  }
+  >p {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
+const SousTitre = styled.p`
+  color: ${({theme}) => theme.color.title};
+  font-size: 1.2rem;
+  padding: 1rem 0 .5rem 0 !important;
+`;
+
 export const Personnage = () => {
   const {id} = useParams();
   const [perso, setPerso] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
   const [loading, setLoading] = useState(false);
   const load = async () => {
-    getPersonnages([id]).then(([p]) => setPerso(p));
+    const [p] = await getPersonnages([id]);
+    setPerso(p);
+    setEpisodes(await getEpisodes(p.episode.map(e => +e.split("/").pop())));
   };
 
   useEffect(() => {
@@ -137,8 +179,45 @@ export const Personnage = () => {
   return (
     <>
       {loading && <Spinner/>}
-      {perso && (
-        <SmallPersonnage perso={perso} card />
+      {perso &&  (
+        <Container>
+          <Link to={`/personnages/${perso.id}`}><Title underline>{perso.name}</Title></Link>
+          <div style={{position: "relative"}}>
+            <img src={perso.image} alt={""} style={{maxWidth: "min(90vw, 200px)", height: "auto"}}/>
+            <Heart perso={perso} big style={{top: ".5rem", right: '.5rem'}}/>
+          </div>
+          <div className="grid">
+            <Outline>
+              <Title small>Informations personnelles</Title>
+              <SousTitre>Sexe</SousTitre>
+              <p>{perso.gender}</p>
+              <SousTitre>Espèce</SousTitre>
+              <p>{perso.species}</p>
+              {perso.type && (
+                <>
+                  <SousTitre>Type</SousTitre>
+                  <p>{perso.type}</p>
+                </>
+              )}
+              <SousTitre>Statut</SousTitre>
+              <p>{perso.status}</p>
+            </Outline>
+            <Outline>
+              <Title small>Position</Title>
+              <SousTitre>Origine</SousTitre>
+              <p>{perso.origin.name}</p>
+              <SousTitre>Actuelle</SousTitre>
+              <p>{perso.location.name}</p>
+            </Outline>
+            <Outline style={{gridColumn: "span 2"}} >
+              <Title style={{marginBottom: "1.2rem"}} small>Apparitions</Title>
+              {episodes.map((e) => (
+                <CustomLink style={{marginBottom: ".5rem"}} to={`/episode/${e.id}`} key={e.id}>{e.name}</CustomLink>
+              ))}
+            </Outline>
+          </div>
+
+        </Container>
       )}
     </>
   );

@@ -5,4 +5,5 @@ export const Title = styled.h1`
   text-align: ${({align}) => align ?? "center"};
   margin: 1rem;
   color: ${({theme}) => theme.color.title};
+  ${({underline}) => underline && `text-decoration: underline;`}
 `;
