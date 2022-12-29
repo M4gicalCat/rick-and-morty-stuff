@@ -43,7 +43,7 @@ export const Accueil = () => {
       randoms.push(random);
     }
     const persos = await getPersonnages(randoms);
-    setRandoms(persos);
+    setRandoms(persos.filter(p => p));
     setLoading(l => ({...l, persos: false}));
   };
 

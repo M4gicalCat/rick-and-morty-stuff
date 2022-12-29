@@ -1,12 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const getFavs = () => {
-  const str = localStorage.getItem("favorites");
-  if (str?.length) {
-    return [...new Set(str.split(",").map(Number))];
-  }
-  return [];
-}
+  const cookieValue = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('favorites'))
+    ?.split('=')[1] ?? "";
+  return [...new Set(cookieValue.split(",").filter(f => f.length).map(Number))];
+};
 export const FavorisSlice = createSlice({
   name: 'favoris',
   initialState: {
@@ -20,7 +20,8 @@ export const FavorisSlice = createSlice({
       } else {
         state.favoris.push(id);
       }
-      localStorage.setItem("favorites", state.favoris.join(","));
+      // localStorage.setItem("favorites", state.favoris.join(","));
+      document.cookie = `favorites=${state.favoris.join(",")}; Secure`;
     }
   }
 });
