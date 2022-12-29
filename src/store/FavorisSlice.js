@@ -28,4 +28,4 @@ export const FavorisSlice = createSlice({
 
 export const {toggleFavori} = FavorisSlice.actions;
 
-export default FavorisSlice.reducer
+export default FavorisSlice.reducer;

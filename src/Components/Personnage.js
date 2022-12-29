@@ -4,34 +4,13 @@ import {ActionButton} from "./ActionButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons/faHeart";
 import {faHeartBroken} from "@fortawesome/free-solid-svg-icons/faHeartBroken";
-import {endPoint} from "../Model";
 import {toggleFavori} from "../store/FavorisSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {Spinner} from "./Spinner";
 import {useEffect, useState} from "react";
 import {Title} from "./Title";
 import {getEpisodes} from "./Episode";
-
-const personnages = new Map();
-export const getPersonnages = async (ids) => {
-  const toFetch = [];
-  for (const id of ids) {
-    if (!personnages.has(id)) toFetch.push(id);
-  }
-  if (toFetch.length > 0) {
-    const data = await (await fetch(`${endPoint}/character/[${toFetch.join(",")}]`)).json();
-    for (const perso of data) {
-      personnages.set(perso.id, perso);
-    }
-  }
-  return ids.map(id => personnages.get(+id));
-};
-
-export const addPersonnages = (persos) => {
-  for (const perso of persos) {
-    personnages.set(perso.id, perso);
-  }
-}
+import {usePersonnages} from "../hooks";
 
 const CustomLink = styled(Link)`
   text-decoration: underline;
@@ -162,6 +141,7 @@ const SousTitre = styled.p`
 `;
 
 export const Personnage = () => {
+  const {getPersonnages} = usePersonnages();
   const {id} = useParams();
   const [perso, setPerso] = useState(null);
   const [episodes, setEpisodes] = useState([]);

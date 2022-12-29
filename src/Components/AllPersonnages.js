@@ -1,11 +1,13 @@
 import {Spinner} from "./Spinner";
 import {useEffect, useState} from "react";
-import {addPersonnages, SmallPersonnage} from "./Personnage";
+import {SmallPersonnage} from "./Personnage";
 import {endPoint} from "../Model";
 import {Infos} from "./AllEpisodes";
 import {Title} from "./Title";
 import styled from "styled-components";
 import {useWindowSize} from "../hooks";
+import {addPersonnages} from "../store/PersoSlice";
+import {useDispatch} from "react-redux";
 
 const Container = styled.div`
   display: grid;
@@ -20,15 +22,17 @@ export const AllPersonnages = () => {
   const [info, setInfo] = useState({});
   const [link, setLink] = useState(`${endPoint}/character`);
   const width = useWindowSize();
+  const dispatch = useDispatch();
 
   const load = async () => {
     const {info, results} = await (await fetch(link)).json();
     setInfo(info);
     setPersonnages(results);
-    addPersonnages(results);
+    dispatch(addPersonnages(results));
   }
 
   useEffect(() => {
+    if (loading) return;
     setLoading(true);
     load().then(() => setLoading(false));
   }, [link]);

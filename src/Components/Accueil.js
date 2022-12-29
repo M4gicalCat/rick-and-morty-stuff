@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import {Title} from "./Title";
 import {Spinner} from "./Spinner";
-import {useSelector} from "react-redux";
-import {addPersonnages, getPersonnages, SmallPersonnage} from "./Personnage";
+import {useDispatch, useSelector} from "react-redux";
+import {SmallPersonnage} from "./Personnage";
 import styled from "styled-components";
+import {addPersonnages} from "../store/PersoSlice";
+import {usePersonnages} from "../hooks";
 
 const Container = styled.div`
   display: flex;
@@ -27,15 +29,17 @@ const Card = styled.div`
 `;
 
 export const Accueil = () => {
+  const {getPersonnages} = usePersonnages();
   const allFavs = useSelector(s => s.favoris.favoris);
   const [favoris, setFavoris] = useState([]);
   const [randoms, setRandoms] = useState([]);
   const [loading, setLoading] = useState({favoris: false, persos: false});
+  const dispatch = useDispatch();
 
   const getRandomCharacters = async () => {
     setLoading(l => ({...l, persos: true}));
     const {info, results} = (await fetch('https://rickandmortyapi.com/api/character').then(r => r.json()));
-    addPersonnages(results);
+    dispatch(addPersonnages(results));
     const {count} = info;
     const randoms = [];
     for (let i = 0; i < 5; i++) {

@@ -1,4 +1,7 @@
-import {useLayoutEffect, useState} from "react";
+import { useLayoutEffect, useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
+import { endPoint } from "../Model";
+import { addPersonnages } from "../store/PersoSlice";
 
 
 export function useWindowSize() {
@@ -13,4 +16,25 @@ export function useWindowSize() {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
   return width;
+}
+
+export function usePersonnages() {
+  const personnages = useSelector(s => s.personnages);
+  const dispatch = useDispatch();
+
+  return {
+    getPersonnages: async (ids) => {
+      const toFetch = [];
+
+      let persos = [];
+      for (const id of ids) {
+        if (!personnages.find(p => +p.id === +id)) toFetch.push(id);
+      }
+      if (toFetch.length > 0) {
+        persos = await (await fetch(`${endPoint}/character/[${toFetch.join(",")}]`)).json();
+        dispatch(addPersonnages(persos));
+      }
+      return ids.map(id => [...personnages, ...persos].find(p => +p.id === +id));
+    }
+  }
 }

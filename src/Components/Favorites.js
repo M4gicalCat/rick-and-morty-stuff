@@ -1,12 +1,13 @@
 import {Title} from "./Title";
 import {useEffect,  useState} from "react";
-import {getPersonnages, SmallPersonnage} from "./Personnage";
+import {SmallPersonnage} from "./Personnage";
 import {useSelector} from "react-redux";
 import styled from "styled-components";
 import {Spinner} from "./Spinner";
 import {Info} from "./Info";
 import {Link} from "react-router-dom";
 import {Button} from "./Button";
+import {usePersonnages} from "../hooks";
 
 const Container = styled.div`
   display: grid;
@@ -19,10 +20,12 @@ export const Favorites = () => {
   const favoris = useSelector(s => s.favoris.favoris);
   const [personnages, setPersonnages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const {getPersonnages} = usePersonnages();
 
   useEffect(() => {
     setLoading(true);
     getPersonnages(favoris).then((p) => {
+      console.log(p);
       setPersonnages(p);
       setLoading(false);
     });

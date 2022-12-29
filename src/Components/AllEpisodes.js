@@ -5,9 +5,9 @@ import {Button} from "./Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight, faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 import {Title} from "./Title";
-import {getPersonnages, SmallPersonnage as Perso} from "./Personnage";
+import {SmallPersonnage as Perso} from "./Personnage";
 import {Spinner} from "./Spinner";
-import {useWindowSize} from "../hooks";
+import {usePersonnages, useWindowSize} from "../hooks";
 
 const ListContainer = styled.div`
   display: flex;
@@ -78,6 +78,7 @@ const Personnages = ({urls, card, defaultOpen}) => {
   const [personnages, setPersonnages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const {getPersonnages} = usePersonnages();
 
   const load = () => {
     if (loaded || loading) return;
