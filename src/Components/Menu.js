@@ -137,20 +137,16 @@ const Background = styled.div`
   }
 `;
 
-export const Menu = () => {
+export const Menu = ({theme, setTheme}) => {
   const width = useWindowSize();
-  const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   return (
-    <ThemeProvider theme={themes[theme]}>
+    <>
       {(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}
       <Background>
         <div style={{height: "5rem"}}/>
         <Outlet/>
       </Background>
-    </ThemeProvider>
+    </>
   );
 }

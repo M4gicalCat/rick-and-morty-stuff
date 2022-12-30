@@ -11,15 +11,7 @@ import {useEffect, useState} from "react";
 import {Title} from "./Title";
 import {getEpisodes} from "./Episode";
 import {usePersonnages} from "../hooks";
-
-const CustomLink = styled(Link)`
-  text-decoration: underline;
-  color: ${({theme}) => theme.color.title};
-  &:hover {
-    color: ${({theme}) => theme.color.hover};
-  }
-  display: block;
-`;
+import {CustomLink} from "./CustomLink";
 
 const CardContainer = styled.div`
   height: calc(100% - 2rem);
@@ -163,7 +155,7 @@ export const Personnage = () => {
         <Container>
           <Link to={`/personnages/${perso.id}`}><Title underline>{perso.name}</Title></Link>
           <div style={{position: "relative"}}>
-            <img src={perso.image} alt={""} style={{maxWidth: "min(90vw, 200px)", height: "auto"}}/>
+            <img src={perso.image} alt={""} style={{maxWidth: "min(90vw, 200px)", height: "auto" }}/>
             <Heart perso={perso} big style={{top: ".5rem", right: '.5rem'}}/>
           </div>
           <div className="grid">
@@ -189,14 +181,15 @@ export const Personnage = () => {
               <SousTitre>Actuelle</SousTitre>
               <p>{perso.location.name}</p>
             </Outline>
-            <Outline style={{gridColumn: "span 2"}} >
-              <Title style={{marginBottom: "1.2rem"}} small>Apparitions</Title>
-              {episodes.map((e) => (
-                <CustomLink style={{marginBottom: ".5rem"}} to={`/episode/${e.id}`} key={e.id}>{e.name}</CustomLink>
-              ))}
-            </Outline>
+            {episodes?.length > 0 && (
+              <Outline style={{gridColumn: "span 2"}} >
+                <Title style={{marginBottom: "1.2rem"}} small>Apparitions</Title>
+                {episodes.map((e) => (
+                  <CustomLink style={{marginBottom: ".5rem"}} to={`/episode/${e.id}`} key={e.id}>{e.name}</CustomLink>
+                ))}
+              </Outline>
+            )}
           </div>
-
         </Container>
       )}
     </>

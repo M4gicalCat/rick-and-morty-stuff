@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBrowserRouter, RouterProvider,} from 'react-router-dom';
 import {Menu} from "./Menu";
 import {AllEpisodes} from "./AllEpisodes";
@@ -7,13 +7,20 @@ import {Favorites} from "./Favorites";
 import {Episode} from "./Episode";
 import {AllPersonnages} from "./AllPersonnages";
 import {Personnage} from "./Personnage";
-
+import {Error} from "./Error";
+import {themes} from "../themes";
+import {ThemeProvider} from "styled-components";
 
 export const Router = () => {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Menu />,
+      element: <Menu theme={theme} setTheme={setTheme} />,
+      errorElement: <Error />,
       children: [
         {
           path: '/',
@@ -43,5 +50,8 @@ export const Router = () => {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={themes[theme]}>
+      <RouterProvider router={router} />
+    </ThemeProvider>);
 };

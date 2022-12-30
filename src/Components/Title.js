@@ -6,4 +6,5 @@ export const Title = styled.h1`
   margin: 1rem;
   color: ${({theme}) => theme.color.title};
   ${({underline}) => underline && `text-decoration: underline;`}
+  {${({fullWidth}) => fullWidth && `width: 100%;`}
 `;
