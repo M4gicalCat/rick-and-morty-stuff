@@ -32,8 +32,8 @@ const Circle = styled.div`
   align-self: flex-end;
 `;
 
-export const Info = ({children, fullWidth}) => (
-  <InfoContainer fullWidth={fullWidth}>
+export const Info = ({children, ...props}) => (
+  <InfoContainer {...props}>
     <Circle>i</Circle>
     {children}
   </InfoContainer>

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {SmallPersonnage} from "./Personnage";
 import styled from "styled-components";
 import {addPersonnages} from "../store/PersoSlice";
-import {usePersonnages} from "../hooks";
+import {usePersonnages, useWindowSize} from "../hooks";
 
 const Container = styled.div`
   display: flex;
@@ -35,6 +35,7 @@ export const Accueil = () => {
   const [randoms, setRandoms] = useState([]);
   const [loading, setLoading] = useState({favoris: false, persos: false});
   const dispatch = useDispatch();
+  const width = useWindowSize();
 
   const getRandomCharacters = async () => {
     setLoading(l => ({...l, persos: true}));
@@ -63,7 +64,7 @@ export const Accueil = () => {
     getRandomCharacters().then();
   }, []);
 
-  const RenderPersos = ({loading, persos, title}) => {
+  const RenderPersos = ({loading, persos, title, prefix}) => {
     if (loading) {
       return <Spinner />;
     }
@@ -72,7 +73,7 @@ export const Accueil = () => {
       <Card>
         <Title small>{title}</Title>
         <Container>
-          {persos.map(perso => <SmallPersonnage key={perso.id} perso={perso}/>).reverse()}
+          {persos.map(perso => <SmallPersonnage key={`${prefix}_${perso.id}`} perso={perso}/>).reverse()}
         </Container>
       </Card>
     );
@@ -81,8 +82,10 @@ export const Accueil = () => {
   return (
     <>
       <Title>Accueil</Title>
-      <RenderPersos loading={loading.persos} persos={randoms} title="Personnages aléatoires" />
-      <RenderPersos loading={loading.favoris} persos={favoris} title="Mes derniers favoris" />
+      <div style={{display: "flex", flexDirection: width >= 700 ? "row" : "column"}}>
+        <RenderPersos loading={loading.persos} prefix="random" persos={randoms} title="Personnages aléatoires" />
+        <RenderPersos loading={loading.favoris} prefix="favori" persos={favoris} title="Mes derniers favoris" />
+      </div>
     </>
   );
 };

@@ -2,14 +2,14 @@ export const themes = {
   light: {
     background: "#fff",
     color: {
-      title: "#63cbfb",
+      title: "#32b5f6",
       text: "#000",
-      hover: "#43abdb",
+      hover: "#1bb7fc",
       border: "#ccc",
       spinner: "#48e899",
       dark: "#777",
       button: {
-        background: "#63cbfb",
+        background: "#32b5f6",
         text: "#fff",
         disabled: "#ccc",
       },
