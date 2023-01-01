@@ -33,11 +33,11 @@ const List = ({episodes}) => {
 
 const Card = styled.div`
   padding: 1rem;
-  ${({open, theme}) => (open ? `
+  ${({open, border = true, theme}) => open ? `
     margin-bottom: 1rem;
-    border: 1px solid ${theme.color.border};
+    ${border ? `border: 1px solid ${theme.color.border};` : ""}
     border-radius: 5px;`
-  : 'padding-bottom: 0')}
+  : 'padding-bottom: 0'}
 `;
 
 const CardContainer = styled.div`
@@ -52,15 +52,15 @@ export const Episode = ({episode, defaultOpen}) => {
   const width = useWindowSize();
 
   return (
-    <Card open={open}>
+    <Card open={open} border={!defaultOpen}>
       <Title
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen(o => !o || defaultOpen)}
         style={{cursor: "pointer"}}
-        small
+        small={!defaultOpen}
         align="left"
       >
         {episode.episode} - {episode.name}
-        <FontAwesomeIcon style={{float: "right"}} icon={open ? faChevronUp : faChevronDown}/>
+        {!defaultOpen && <FontAwesomeIcon style={{float: "right"}} icon={open ? faChevronUp : faChevronDown}/>}
       </Title>
 
       {open && (

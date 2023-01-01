@@ -7,7 +7,7 @@ import {Spinner} from "./Spinner";
 import {Info} from "./Info";
 import {Link} from "react-router-dom";
 import {Button} from "./Button";
-import {usePersonnages} from "../hooks";
+import {usePersonnages, useWindowSize} from "../hooks";
 
 const Container = styled.div`
   display: grid;
@@ -21,25 +21,25 @@ export const Favorites = () => {
   const [personnages, setPersonnages] = useState([]);
   const [loading, setLoading] = useState(false);
   const {getPersonnages} = usePersonnages();
+  const width = useWindowSize();
 
   useEffect(() => {
     setLoading(true);
     getPersonnages(favoris).then((p) => {
-      console.log(p);
       setPersonnages(p);
       setLoading(false);
     });
   }, [favoris]);
-
+  const small = width <= 700;
   return (
     <div>
       <Title>Mes personnages favoris</Title>
       {loading && <Spinner />}
       {personnages.length === 0 && !loading && (
-        <div style={{width: "calc(100% - 4rem)", display: "flex", flexDirection: "row", justifyContent: "center", margin: "3rem 2rem 0 2rem"}}>
-          <Info>
+        <div style={{width: "calc(100% - 2rem)", display: "flex", flexDirection: "row", justifyContent: "center", margin: "3rem 1rem 0 1rem"}}>
+          <Info fullWidth={small} style={{textAlign: small ? "center" : undefined}}>
             Vous n'avez aucun personnage favori, allez donc en choisir quelques uns.
-            <div style={{marginTop: "1rem", display: "flex", flexDirection: "row", alignItems: "space-between", flexWrap: "wrap"}}>
+            <div style={{marginTop: "1rem", display: "flex", flexDirection: small ? "column" : "row", alignItems: small ? "center" : "space-between", flexWrap: "wrap"}}>
               <Link to="/episode"><Button>Voir les épisodes</Button></Link>
               <Link to="/personnages"><Button>Voir les personnages</Button></Link>
             </div>

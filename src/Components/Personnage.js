@@ -184,9 +184,11 @@ export const Personnage = () => {
             {episodes?.length > 0 && (
               <Outline style={{gridColumn: "span 2"}} >
                 <Title style={{marginBottom: "1.2rem"}} small>Apparitions</Title>
-                {episodes.map((e) => (
-                  <CustomLink style={{marginBottom: ".5rem"}} to={`/episode/${e.id}`} key={e.id}>{e.name}</CustomLink>
-                ))}
+                <div style={{display: "flex", flexDirection: "column"}}>
+                  {episodes.map((e) => (
+                    <CustomLink style={{marginBottom: ".5rem"}} to={`/episode/${e.id}`} key={e.id}>{e.episode} - {e.name} ({e.air_date})</CustomLink>
+                  ))}
+                </div>
               </Outline>
             )}
           </div>

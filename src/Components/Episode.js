@@ -11,7 +11,7 @@ export const Episode = () => {
   const [episode, setEpisode] = useState(null);
 
   useEffect(() => {
-    getEpisodes([id]).then(setEpisode);
+    getEpisodes([id]).then(([ep]) => setEpisode(ep));
   }, [id]);
 
   return episode ? <Ep episode={episode} defaultOpen/> : <Spinner />;
