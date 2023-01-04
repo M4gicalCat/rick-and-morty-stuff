@@ -6,6 +6,8 @@ import {SmallPersonnage} from "./Personnage";
 import styled from "styled-components";
 import {addPersonnages} from "../store/PersoSlice";
 import {usePersonnages, useWindowSize} from "../hooks";
+import {MortyEyes} from "./MortyEyes";
+import {RickEyes} from "./RickEyes";
 
 const Container = styled.div`
   display: flex;
@@ -80,12 +82,14 @@ export const Accueil = () => {
   };
 
   return (
-    <>
+    <div style={{position: "relative", width: "100%", height: "100%"}}>
+      <MortyEyes />
+      <RickEyes />
       <Title>Accueil</Title>
-      <div style={{display: "flex", flexDirection: width >= 700 ? "row" : "column"}}>
+      <div style={{display: "flex", flexDirection: width >= 1000 ? "row" : "column"}}>
         <RenderPersos loading={loading.persos} prefix="random" persos={randoms} title="Personnages aléatoires" />
         <RenderPersos loading={loading.favoris} prefix="favori" persos={favoris} title="Mes derniers favoris" />
       </div>
-    </>
+    </div>
   );
 };

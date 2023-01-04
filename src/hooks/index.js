@@ -38,3 +38,18 @@ export function usePersonnages() {
     }
   }
 }
+
+export function useMousePosition() {
+  const [position, setPosition] = useState({x: null, y: null});
+
+  const updateMousePosition = (ev) => {
+    setPosition({x: ev.clientX, y: ev.clientY});
+  };
+
+  useLayoutEffect(() => {
+    window.addEventListener('mousemove', updateMousePosition);
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
+
+  return position;
+}
