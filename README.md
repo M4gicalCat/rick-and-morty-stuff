@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+Afin de reprendre tous les concepts abordés jusqu’à maintenant, réalisez seul le projet suivant. Il sera noté et à rendre pour le **6 janvier 2023**.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Les données de notre site viendront de l’API [https://rickandmortyapi.com/documentation](https://rickandmortyapi.com/documentation)
 
-## Available Scripts
+Vous utiliserez Bootstrap ou Tailwindcss pour mettre votre site en forme, libre à vous de créer un design sympa tant que le site est responsive. [https://react-bootstrap.github.io/getting-started/introduction](https://react-bootstrap.github.io/getting-started/introduction)
 
-In the project directory, you can run:
+Le but est de réaliser un blog sur la série Rick et Morty, nous aurons des pages dédiées aux épisodes, aux personnages et un espace favoris
 
-### `npm start`
+La notation sera sur 10 points, un deuxième partie sera réalisée plus tard :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Responsive / Design | 1 points |
+|---------------------|----------|
+| Accueil             | 2 points |
+| Épisode             | 2 points |
+| Personnage          | 2 points |
+| Favoris             | 3 points |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Page d’accueil
 
-### `npm test`
+- Menu en haut de page (présent sur tout le site)
+    - Favoris
+    - Épisodes
+- Liste des 5 personnages aléatoires
+    - Nom
+    - Miniature
+    - Lien sur la fiche
+    - Bouton favoris (enregistrement en cookie)
+        - Icône 🤍 vide si pas en favoris / Icône ❤️ si déjà en favoris
+        - Le clic sur le bouton change le statut favori du personnage
+- Si des favoris sont enregistrés en cookies
+    - Liste des 5 favoris les plus récents
+        - Nom
+        - Miniature
+        - Lien sur la fiche
+        - Bouton favoris (enregistrement en cookie)
+            - Icône 🤍 vide si pas en favoris / Icône ❤️ si déjà en favoris
+            - Le clic sur le bouton change le statut favori du personnage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Page épisode
 
-### `npm run build`
+- Nom
+- Code
+- Date
+- Liste des personnages
+    - Nom
+    - Miniature
+    - Lien sur la fiche
+    - Bouton favoris (enregistrement en cookie)
+        - Icône 🤍 vide si pas en favoris / Icône ❤️ si déjà en favoris
+        - Le clic sur le bouton change le statut favori du personnage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Page personnage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Nom
+- Statut
+- Sexe
+- Type
+- Origine (Location)
+    - Nom
+    - Image (en tout petit)
+- Image
+- Liste des épisodes (Sous forme de tableau)
+    - Code
+    - Nom
+    - Date
+    - Lien sur la fiche
+- Bouton favoris (enregistrement en cookie)
+    - Icône 🤍 vide si pas en favoris / Icône ❤️ si déjà en favoris
+    - Le clic sur le bouton change le statut favori du personnage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Page favoris
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Liste des personnages en favoris
+    - Nom
+    - Miniature
+    - Lien sur la fiche
+    - Bouton favoris (enregistrement en cookie)
+        - Icône 🤍 vide si pas en favoris / Icône ❤️ si déjà en favoris
+        - Le clic sur le bouton change le statut favori du personnage
+- Si aucun favoris, message “Aucun favoris” + Lien sur la liste des épisodes
