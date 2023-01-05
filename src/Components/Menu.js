@@ -1,10 +1,9 @@
 import {Link, Outlet} from "react-router-dom";
-import styled, {ThemeProvider} from "styled-components";
-import {useEffect, useState} from "react";
+import styled from "styled-components";
+import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faMoon, faSun, faX} from "@fortawesome/free-solid-svg-icons";
 import {useWindowSize} from "../hooks";
-import {themes} from "../themes";
 
 const Nav = styled.nav`
   position: fixed;
