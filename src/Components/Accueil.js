@@ -46,8 +46,7 @@ export const Accueil = () => {
     const {count} = info;
     const randoms = [];
     for (let i = 0; i < 5; i++) {
-      const random = Math.floor(Math.random() * count);
-      randoms.push(random);
+      randoms.push(Math.floor(Math.random() * count));
     }
     const persos = await getPersonnages(randoms);
     setRandoms(persos.filter(p => p));

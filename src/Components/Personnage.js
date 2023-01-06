@@ -40,7 +40,7 @@ const CardContainer = styled.div`
 
 const Card = ({perso}) => (
   <CardContainer>
-    <CustomLink style={{marginBottom: "1rem", color: perso.status === "Dead" ? "red" : undefined}} to={`/personnages/${perso.id}`}>
+    <CustomLink style={{margin: "0 1.5rem 1rem 0", color: perso.status === "Dead" ? "red" : undefined}} to={`/personnages/${perso.id}`}>
       {perso.name}
     </CustomLink>
     <img src={perso.image} alt={""}/>
