@@ -74,7 +74,7 @@ export const SmallPersonnage = ({perso, card}) => card ? (
 ) : (
   <PersoContainer>
     <img src={perso.image} alt={""} style={{width: "50px", height: "50px"}}/>
-    <div>
+    <div style={{marginRight: "2rem"}}>
       <CustomLink to={`/personnages/${perso.id}`} style={{color: perso.status === "Dead" ? "red" : undefined}}>{perso.name}</CustomLink>
       <p>{perso.species}{perso.type && ` - ${perso.type}`}</p>
     </div>
