@@ -1,6 +1,25 @@
 # Adresse email 
 `philippefaisandier@gmail.com`
 
+# Site de production
+[Voir le site](https://rick.pfaisand.fr)
+
+# Installation
+## Prérequis
+- Firebase
+  - Créer un projet
+  - Activer l'authentification par email et mot de passe
+  - Activer une base de données en temps réel
+
+```bash
+cd /path/to/project
+npm i
+cp src/firebase/config.example.js src/firebase/config.js
+# Ajoutez votre configuration dans le fichier src/firebase/config.js
+npm run start
+```
+
+# Sujet du projet
 
 Afin de reprendre tous les concepts abordés jusqu’à maintenant, réalisez seul le projet suivant. Il sera noté et à rendre pour le **6 janvier 2023**.
 

@@ -56,6 +56,8 @@ export const themes = {
         border: "#007bff",
         text: "#000",
         circle: "#22ceff",
+        hover: "#ccc",
+        link: "#fff",
       }
     },
   }

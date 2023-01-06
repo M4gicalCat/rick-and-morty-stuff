@@ -15,6 +15,13 @@ const InfoContainer = styled.div`
   button {
     background-color: ${themes.dark.color.button.background};
   }
+  & a {
+    color: ${({theme}) => theme.color.info.link};
+    transition: .25s;
+  }
+  & a:hover {
+    color: ${({theme}) => theme.color.info.hover};
+  }
 `;
 
 const Circle = styled.div`

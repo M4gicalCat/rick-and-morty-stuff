@@ -3,7 +3,11 @@ import styled from "styled-components";
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faMoon, faSun, faX} from "@fortawesome/free-solid-svg-icons";
-import {useWindowSize} from "../hooks";
+import { useWindowSize } from "../hooks";
+import {faArrowRightFromBracket} from "@fortawesome/free-solid-svg-icons/faArrowRightFromBracket";
+import {signOut} from "firebase/auth";
+import {auth} from "../firebase/init";
+import {Connected} from "./Connected";
 
 const Nav = styled.nav`
   position: fixed;
@@ -107,6 +111,7 @@ const LargeMenu = ({theme, setTheme}) => (
       icon={theme === "light" ? faMoon : faSun}
       onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
     />
+    <FontAwesomeIcon icon={faArrowRightFromBracket} onClick={() => signOut(auth)}/>
   </Nav>
 );
 
@@ -138,10 +143,12 @@ const Background = styled.div`
 
 export const Menu = ({theme, setTheme}) => {
   const width = useWindowSize();
-
   return (
     <>
-      {(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}
+      <Connected
+        Component={<>{(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}</>}
+        hidden
+      />
       <Background>
         <div style={{height: "5rem"}}/>
         <Outlet/>

@@ -3,32 +3,13 @@ import {Title} from "./Title";
 import {Spinner} from "./Spinner";
 import {useDispatch, useSelector} from "react-redux";
 import {SmallPersonnage} from "./Personnage";
-import styled from "styled-components";
 import {addPersonnages} from "../store/PersoSlice";
 import {usePersonnages, useWindowSize} from "../hooks";
 import {MortyEyes} from "./MortyEyes";
 import {RickEyes} from "./RickEyes";
+import {Container} from "./Container";
+import {Card} from "./Card";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: min(calc(100vw - 4rem), 400px);
-  margin: 3rem auto 0 auto;
-`;
-
-const Card = styled.div`
-  padding: 1rem;
-  margin: 0 auto 1rem auto;
-  border: 1px solid ${({theme}) => theme.color.border};
-  border-radius: 5px;
-  width: fit-content;
-  > h1 {
-    border-bottom: 1px solid ${({theme}) => theme.color.title};
-    padding-bottom: 0.5rem;
-  }
-`;
 
 export const Accueil = () => {
   const {getPersonnages} = usePersonnages();

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {createBrowserRouter, RouterProvider,} from 'react-router-dom';
+import {createBrowserRouter, Outlet, RouterProvider,} from 'react-router-dom';
 import {Menu} from "./Menu";
 import {AllEpisodes} from "./AllEpisodes";
 import {Accueil} from "./Accueil";
@@ -10,6 +10,8 @@ import {Personnage} from "./Personnage";
 import {Error} from "./Error";
 import {themes} from "../themes";
 import {ThemeProvider} from "styled-components";
+import {Register} from "./Register";
+import {Connected} from "./Connected";
 
 export const Router = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
@@ -24,28 +26,54 @@ export const Router = () => {
       children: [
         {
           path: '/',
-          element: <Accueil />,
+          element: <Connected Component={<Accueil />} />,
         },
         {
           path: 'episode',
-          element: <AllEpisodes />,
-        },
-        {
-          path: 'episode/:id',
-          element: <Episode />,
+          element: <Connected Component={<Outlet />} />,
+          children: [
+            {
+              path: ':id',
+              element: <Episode />,
+            },
+            {
+              path: "",
+              element: <AllEpisodes/>,
+            }
+          ]
         },
         {
           path: 'personnages',
-          element: <AllPersonnages />,
-        },
-        {
-          path: 'personnages/:id',
-          element: <Personnage />,
+          element: <Connected Component={<Outlet />} />,
+          children: [
+            {
+              path: ':id',
+              element: <Personnage />,
+            },
+            {
+              path: "",
+              element: <AllPersonnages/>,
+            }
+          ],
         },
         {
           path: 'favoris',
-          element: <Favorites />,
+          element: <Connected Component={<Favorites />} />,
         },
+        {
+          path: "auth",
+          element: <Outlet />,
+          children: [
+            {
+              path: "login",
+              element: <Register />,
+            },
+            {
+              path: "",
+              element: <Register newUser/>,
+            },
+          ],
+        }
       ],
     },
   ]);
