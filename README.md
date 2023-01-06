@@ -1,3 +1,7 @@
+# Adresse email 
+`philippefaisandier@gmail.com`
+
+
 Afin de reprendre tous les concepts abordés jusqu’à maintenant, réalisez seul le projet suivant. Il sera noté et à rendre pour le **6 janvier 2023**.
 
 Les données de notre site viendront de l’API [https://rickandmortyapi.com/documentation](https://rickandmortyapi.com/documentation)
