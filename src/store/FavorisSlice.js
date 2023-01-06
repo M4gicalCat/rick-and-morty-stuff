@@ -21,7 +21,7 @@ export const FavorisSlice = createSlice({
         state.favoris.push(id);
       }
       // localStorage.setItem("favorites", state.favoris.join(","));
-      document.cookie = `favorites=${state.favoris.join(",")}; path=/";`;
+      document.cookie = `favorites=${state.favoris.join(",")}; path=/;`;
     }
   }
 });
