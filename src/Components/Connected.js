@@ -4,13 +4,21 @@ import {useEffect, useState} from "react";
 import {Info} from "./Info";
 import {Link} from "react-router-dom";
 import {onAuthStateChanged} from "firebase/auth";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setFavoris} from "../store/FavorisSlice";
-import {child, get, ref} from "firebase/database";
+import {child, get, ref, set} from "firebase/database";
 
 export const Connected = ({Component, hidden}) => {
   const [uid, setUid] = useState(null);
   const dispatch = useDispatch();
+  const favoris = useSelector(state => state.favoris);
+
+  useEffect(() => {
+
+    if (!uid) return;
+    set(ref(db, `users/${uid}`), favoris).then();
+  }, [favoris]);
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {

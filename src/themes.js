@@ -58,6 +58,11 @@ export const themes = {
         circle: "#22ceff",
         hover: "#ccc",
         link: "#fff",
+      },
+      error: {
+        background: "#FF0000C8",
+        border: "#ff0000",
+        text: "#fff",
       }
     },
   }
