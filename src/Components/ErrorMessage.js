@@ -40,9 +40,9 @@ export const ErrorMessage = ({code}) => {
     color: ${({theme}) => theme.color.error.text};
   `;
 
-  return (
+  return message.length > 0 ? (
     <Container>
       {message}
     </Container>
-  );
+  ) : null;
 }

@@ -26,7 +26,12 @@ export const themes = {
         border: "#007bff",
         text: "#fff",
         circle: "#44eeff",
-      }
+      },
+      error: {
+        background: "#FF0000C8",
+        border: "#ff0000",
+        text: "#000",
+      },
     },
   },
   dark: {
@@ -63,7 +68,7 @@ export const themes = {
         background: "#FF0000C8",
         border: "#ff0000",
         text: "#fff",
-      }
+      },
     },
   }
 };

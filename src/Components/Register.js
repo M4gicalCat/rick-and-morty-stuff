@@ -11,6 +11,7 @@ import {faEyeSlash} from "@fortawesome/free-solid-svg-icons/faEyeSlash";
 import {CustomLink} from "./CustomLink";
 import {Link, redirect} from "react-router-dom";
 import {Spinner} from "./Spinner";
+import {ErrorMessage} from "./ErrorMessage";
 
 const Container = styled.form`
   display: flex;
@@ -72,8 +73,8 @@ export const Register = ({newUser}) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [reveal, setReveal] = useState(false);
+  const [error, setError] = useState("");
   const link = useRef();
-
 
   useEffect(() => {
     if (auth.currentUser?.uid) {
@@ -84,6 +85,7 @@ export const Register = ({newUser}) => {
   }, [auth.currentUser?.uid, link.current]);
 
   useEffect(() => {
+    // pressing enter would show the password, which is not what we want
     document.onkeydown = (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -93,17 +95,19 @@ export const Register = ({newUser}) => {
     return () => {
       document.onkeydown = null;
     }
-  }, [])
+  }, []);
 
   const register = () => {
+    if (loading) return;
+    setError("");
+    setLoading(true);
     const f = newUser ? createUserWithEmailAndPassword : signInWithEmailAndPassword;
     (async () => {
-      setLoading(true);
       try {
         await f(auth, email, password);
         redirect("/");
       } catch (e) {
-        // todo: handle error
+        setError(e.code);
         console.error(e);
       }
       setLoading(false);
@@ -113,6 +117,7 @@ export const Register = ({newUser}) => {
   return (
     <Container onSubmit={e => e.preventDefault()}>
       <Title fullWidth border style={{paddingBottom: "1rem"}}>{newUser ? "Créer un compte" : "Se connecter"}</Title>
+      <ErrorMessage code={error}/>
       <input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <label style={{position: "relative"}}>
         <input autoComplete={"password"} placeholder="Mot de passe" type={reveal ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -121,7 +126,7 @@ export const Register = ({newUser}) => {
         </Action>
       </label>
       <CustomLink style={{fontSize: ".8rem"}} to={newUser ? "/auth/login" : "/auth/"}>{newUser ? "Se connecter" : "Créer un compte"}</CustomLink>
-      <Button disabled={loading} onClick={register}>{loading ? <Spinner /> : (newUser ? "Créer un compte" : "Se connecter")}</Button>
+      <Button onClick={register}>{loading ? <Spinner /> : (newUser ? "Créer un compte" : "Se connecter")}</Button>
       {auth.currentUser?.uid && <Link ref={link} to={"/"} style={{visibility: "hidden"}}>Home</Link>}
     </Container>
   );
