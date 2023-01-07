@@ -12,12 +12,27 @@ import {themes} from "../themes";
 import {ThemeProvider} from "styled-components";
 import {Register} from "./Register";
 import {Connected} from "./Connected";
+import { useSelector } from "react-redux";
+import {auth, db} from "../firebase/init";
+import {ref, set} from "firebase/database";
 
 export const Router = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
+  const [favorisLoaded, setFavorisLoaded] = useState(false);
+
   useEffect(() => {
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  const favoris = useSelector(state => state.favoris);
+  useEffect(() => {
+    if (favoris === null) return setFavorisLoaded(false);
+    // first time is when the db data is set
+    if (!favorisLoaded) return setFavorisLoaded(true);
+    if (!auth.currentUser?.uid) return;
+    set(ref(db, `users/${auth.currentUser.uid}`), favoris).then();
+  }, [favoris]);
+
   const router = createBrowserRouter([
     {
       path: '/',

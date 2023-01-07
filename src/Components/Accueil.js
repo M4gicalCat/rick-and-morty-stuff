@@ -35,6 +35,7 @@ export const Accueil = () => {
   };
 
   useEffect(() => {
+    if (!allFavs) return;
     getPersonnages(allFavs.slice(-5)).then(f => {
       setLoading(l => ({...l, favoris: false}));
       setFavoris(f);
@@ -48,7 +49,12 @@ export const Accueil = () => {
 
   const RenderPersos = ({loading, persos, title, prefix}) => {
     if (loading) {
-      return <Spinner />;
+      return (
+        <Card>
+          <Title small>{title}</Title>
+          <Spinner/>
+        </Card>
+      );
     }
     if (persos.length === 0) return null;
     return (
@@ -68,7 +74,7 @@ export const Accueil = () => {
       <Title>Accueil</Title>
       <div style={{display: "flex", flexDirection: width >= 1000 ? "row" : "column"}}>
         <RenderPersos loading={loading.persos} prefix="random" persos={randoms} title="Personnages aléatoires" />
-        <RenderPersos loading={loading.favoris} prefix="favori" persos={favoris} title="Mes derniers favoris" />
+        <RenderPersos loading={loading.favoris || allFavs === null} prefix="favori" persos={favoris} title="Mes derniers favoris" />
       </div>
     </div>
   );

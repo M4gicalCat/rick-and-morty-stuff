@@ -85,6 +85,7 @@ export const SmallPersonnage = ({perso, card}) => card ? (
 const Heart = ({perso, big, style}) => {
   const favoris = useSelector(s => s.favoris.favoris);
   const dispatch = useDispatch();
+  if (favoris === null) return null;
   const isFavorite = favoris.includes(perso.id);
   return (
     <ActionButton className={isFavorite ? "beating" : undefined} style={{position: "absolute", top: "1rem", right: "1rem", ...style}}>

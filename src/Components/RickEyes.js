@@ -8,6 +8,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 2;
   @media (max-width: 1000px) {
     display: none;
   }
