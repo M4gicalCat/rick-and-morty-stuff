@@ -4,9 +4,6 @@ import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faMoon, faSun, faX} from "@fortawesome/free-solid-svg-icons";
 import { useWindowSize } from "../hooks";
-import {faArrowRightFromBracket} from "@fortawesome/free-solid-svg-icons/faArrowRightFromBracket";
-import {signOut} from "firebase/auth";
-import {auth} from "../firebase/init";
 import {Connected} from "./Connected";
 
 const Nav = styled.nav`
@@ -77,21 +74,22 @@ const PhoneMenu = ({theme, setTheme}) => {
 
   return (
     <SmallNav>
-      {open ? (
-        <>
-          <FontAwesomeIcon icon={faX} onClick={() => setOpen(false)}/>
-          <List>
-            <Link onClick={() => setOpen(false)} to="/">Accueil</Link>
-            <Link onClick={() => setOpen(false)} to="/episode">Episodes</Link>
-            <Link onClick={() => setOpen(false)} to="/personnages">Personnages</Link>
-            <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
-          </List>
-        </>
-      ) : (
-        <>
-          <FontAwesomeIcon icon={faBars} onClick={() => setOpen(true)}/>
-        </>
-      )}
+      <Connected Component={open ? (
+          <>
+            <FontAwesomeIcon icon={faX} onClick={() => setOpen(false)}/>
+            <List>
+              <Link onClick={() => setOpen(false)} to="/">Accueil</Link>
+              <Link onClick={() => setOpen(false)} to="/episode">Episodes</Link>
+              <Link onClick={() => setOpen(false)} to="/personnages">Personnages</Link>
+              <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
+              <Link onClick={() => setOpen(false)} to="/account">Mon compte</Link>
+            </List>
+          </>
+        ) : (
+          <>
+            <FontAwesomeIcon icon={faBars} onClick={() => setOpen(true)}/>
+          </>
+        )}/>
       <FontAwesomeIcon
         icon={theme === "light" ? faMoon : faSun}
         onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
@@ -106,12 +104,12 @@ const LargeMenu = ({theme, setTheme}) => (
     <Link to="/episode">Voir les épisodes</Link>
     <Link to="/personnages">Voir les personnages</Link>
     <Link to="/favoris">Voir mes favoris</Link>
+    <Link to="/account">Mon compte</Link>
     <FontAwesomeIcon
       style={{width: "1rem"}}
       icon={theme === "light" ? faMoon : faSun}
       onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}
     />
-    <FontAwesomeIcon icon={faArrowRightFromBracket} onClick={() => signOut(auth)}/>
   </Nav>
 );
 
@@ -155,4 +153,4 @@ export const Menu = ({theme, setTheme}) => {
       </Background>
     </>
   );
-}
+};

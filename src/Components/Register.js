@@ -84,6 +84,8 @@ export const Register = ({newUser}) => {
     }
   }, [auth.currentUser?.uid, link.current]);
 
+  useEffect(() => setError(""), [email, password, newUser]);
+
   useEffect(() => {
     // pressing enter would show the password, which is not what we want
     document.onkeydown = (e) => {
@@ -98,7 +100,7 @@ export const Register = ({newUser}) => {
   }, []);
 
   const register = () => {
-    if (loading) return;
+    if (loading || [password.length, email.length].includes(0)) return;
     setError("");
     setLoading(true);
     const f = newUser ? createUserWithEmailAndPassword : signInWithEmailAndPassword;
@@ -125,7 +127,7 @@ export const Register = ({newUser}) => {
           <Icon icon={reveal ? faEyeSlash : faEye}/>
         </Action>
       </label>
-      <CustomLink style={{fontSize: ".8rem"}} to={newUser ? "/auth/login" : "/auth/"}>{newUser ? "Se connecter" : "Créer un compte"}</CustomLink>
+      <CustomLink style={{fontSize: ".9rem", marginBottom: ".5rem"}} to={newUser ? "/auth/login" : "/auth/"}>{newUser ? "Se connecter" : "Créer un compte"}</CustomLink>
       <Button onClick={register}>{loading ? <Spinner /> : (newUser ? "Créer un compte" : "Se connecter")}</Button>
       {auth.currentUser?.uid && <Link ref={link} to={"/"} style={{visibility: "hidden"}}>Home</Link>}
     </Container>

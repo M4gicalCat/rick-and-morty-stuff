@@ -1,6 +1,16 @@
 import {useEffect, useState} from "react";
 import styled from "styled-components";
 
+const Container = styled.div`
+  text-align: justify;
+  padding: 1rem;
+  border: 1px solid ${({theme}) => theme.color.error.border};
+  border-radius: 12px;
+  margin: 1rem;
+  background-color: ${({theme}) => theme.color.error.background};
+  color: ${({theme}) => theme.color.error.text};
+`;
+
 export const ErrorMessage = ({code}) => {
   const [message, setMessage] = useState("");
   useEffect(() => {
@@ -26,23 +36,20 @@ export const ErrorMessage = ({code}) => {
       case 'auth/wrong-password':
         setMessage('Le mot de passe est incorrect.');
         break;
-      default: setMessage('');
+      case 'auth/requires-recent-login':
+        setMessage('Vous devez vous reconnecter pour effectuer cette action.');
+        break;
+      case '':
+        setMessage('');
+        break;
+      default:
+        setMessage('Une erreur est survenue : ' + code);
     }
   }, [code]);
-
-  const Container = styled.div`
-    text-align: justify;
-    padding: 1rem;
-    border: 1px solid ${({theme}) => theme.color.error.border};
-    border-radius: 12px;
-    margin: 1rem;
-    background-color: ${({theme}) => theme.color.error.background};
-    color: ${({theme}) => theme.color.error.text};
-  `;
 
   return message.length > 0 ? (
     <Container>
       {message}
     </Container>
   ) : null;
-}
+};

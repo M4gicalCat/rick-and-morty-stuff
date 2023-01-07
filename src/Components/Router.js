@@ -12,6 +12,7 @@ import {themes} from "../themes";
 import {ThemeProvider} from "styled-components";
 import {Register} from "./Register";
 import {Connected} from "./Connected";
+import {Account} from "./Account";
 
 export const Router = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
@@ -61,6 +62,10 @@ export const Router = () => {
         {
           path: 'favoris',
           element: <Connected Component={<Favorites />} />,
+        },
+        {
+          path: 'account',
+          element: <Connected Component={<Account />} />,
         },
         {
           path: "auth",

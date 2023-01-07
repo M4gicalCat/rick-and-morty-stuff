@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {themes} from "../themes";
 
 const InfoContainer = styled.div`
-  width: ${({fullWidth}) => fullWidth ? "100%" : "max-content"};
+  width: ${({fullWidth}) => `${fullWidth ? "max" : "min"}(100%, max-content)`};
   background-color: ${({theme}) => theme.color.info.background};
   border: 1px solid ${({theme}) => theme.color.info.border};
   padding: 1rem;
