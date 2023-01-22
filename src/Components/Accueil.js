@@ -9,6 +9,7 @@ import {MortyEyes} from "./MortyEyes";
 import {RickEyes} from "./RickEyes";
 import {Container} from "./Container";
 import {Card} from "./Card";
+import {Connected} from "./Connected";
 
 
 export const Accueil = () => {
@@ -74,7 +75,7 @@ export const Accueil = () => {
       <Title>Accueil</Title>
       <div style={{display: "flex", flexDirection: width >= 1000 ? "row" : "column"}}>
         <RenderPersos loading={loading.persos} prefix="random" persos={randoms} title="Personnages aléatoires" />
-        <RenderPersos loading={loading.favoris || allFavs === null} prefix="favori" persos={favoris} title="Mes derniers favoris" />
+        <Connected Component={<RenderPersos loading={loading.favoris || allFavs === null} prefix="favori" persos={favoris} title="Mes derniers favoris" />} hidden />
       </div>
     </div>
   );

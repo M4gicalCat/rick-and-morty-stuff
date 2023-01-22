@@ -13,9 +13,37 @@ import {ThemeProvider} from "styled-components";
 import {Register} from "./Register";
 import {Connected} from "./Connected";
 import {Account} from "./Account";
+import {onAuthStateChanged} from "firebase/auth";
+import {auth, db} from "../firebase/init";
+import {onValue, ref, set} from "firebase/database";
+import {setFavoris} from "../store/FavorisSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {setId} from "../store/AuthSlice";
 
 export const Router = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
+  const dispatch = useDispatch();
+  const favoris = useSelector(state => state.favoris);
+  const uid = useSelector(state => state.auth?.id);
+
+  useEffect(() => {
+    if (!uid) return;
+    set(ref(db, `users/${uid}`), favoris).then();
+  }, [favoris]);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(setId(user.uid));
+        onValue(ref(db, `users/${user.uid}/favoris`), snapshot => {
+          dispatch(setFavoris(snapshot.val() ?? []));
+        });
+      } else {
+        dispatch(setId(null));
+        dispatch(setFavoris(null));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -29,11 +57,11 @@ export const Router = () => {
       children: [
         {
           path: '/',
-          element: <Connected Component={<Accueil />} />,
+          element: <Accueil />,
         },
         {
           path: 'episode',
-          element: <Connected Component={<Outlet />} />,
+          element: <Outlet />,
           children: [
             {
               path: ':id',
@@ -47,7 +75,7 @@ export const Router = () => {
         },
         {
           path: 'personnages',
-          element: <Connected Component={<Outlet />} />,
+          element: <Outlet />,
           children: [
             {
               path: ':id',

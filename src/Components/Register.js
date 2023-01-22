@@ -102,6 +102,9 @@ export const Register = ({newUser}) => {
   const register = () => {
     if (loading || [password.length, email.length].includes(0)) return;
     setError("");
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!emailRegex.test(email)) return setError("L'adresse email n'est pas valide");
+    if (password.length < 8) return setError("Le mot de passe doit contenir au moins 8 caractères");
     setLoading(true);
     const f = newUser ? createUserWithEmailAndPassword : signInWithEmailAndPassword;
     (async () => {

@@ -101,3 +101,24 @@ La notation sera sur 10 points, un deuxième partie sera réalisée plus tard :
         - Icône 🤍 vide si pas en favoris / Icône ❤️ si déjà en favoris
         - Le clic sur le bouton change le statut favori du personnage
 - Si aucun favoris, message “Aucun favoris” + Lien sur la liste des épisodes
+
+# TP 2
+
+En utilisant le projet fait dans le TP1, ajoutez les fonctionnalités suivantes :
+
+- Page d’inscription
+    - Formulaire avec email (validation par regex), mot de passe (min 8 caractères)
+- Page de connexion
+    - Vérification de l’utilisateur dans la bdd (firebase ou nodejs)
+- Page favoris
+    - Cette page ne doit être accessible que si l’utilisateur est connecté.
+    - Le bouton d’ajout en favoris ne doit être visible que si l’utilisateur est connecté
+    - Le stockage des favoris doit se faire en bdd
+- Tests
+    - À l’aide de la librairie de test Jest, créez un test qui vérifie le bon fonctionnement du formulaire d’inscription. Le test doit vérifier qu’on ne peut pas envoyer le formulaire si les asserts ne sont pas validés
+
+| Inscription | 2,5 points |
+|-------------|------------|
+| Connexion   | 2,5 points |
+| Favoris     | 3 points   |
+| Tests       | 2 points   |

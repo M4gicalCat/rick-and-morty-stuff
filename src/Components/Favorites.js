@@ -45,7 +45,7 @@ export const Favorites = () => {
             </div>
           </Info>
         </div>
-        )}
+      )}
       <Container>
         {personnages.map(favori => <SmallPersonnage key={favori.id} card perso={favori} />)}
       </Container>
