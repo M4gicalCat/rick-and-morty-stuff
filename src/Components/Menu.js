@@ -81,8 +81,13 @@ const PhoneMenu = ({theme, setTheme}) => {
               <Link onClick={() => setOpen(false)} to="/">Accueil</Link>
               <Link onClick={() => setOpen(false)} to="/episode">Episodes</Link>
               <Link onClick={() => setOpen(false)} to="/personnages">Personnages</Link>
-              <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
-              <Link onClick={() => setOpen(false)} to="/account">Mon compte</Link>
+              <Connected Component={
+                <>
+                  <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
+                  <Link onClick={() => setOpen(false)} to="/account">Mon compte</Link>
+                </>
+              } hidden />
+              <Connected reverse Component={<Link to='/login' onClick={() => setOpen(false)}>Se connecter</Link>} />
             </List>
           </>
         ) : (
@@ -103,8 +108,16 @@ const LargeMenu = ({theme, setTheme}) => (
     <Link to="/">Accueil</Link>
     <Link to="/episode">Voir les épisodes</Link>
     <Link to="/personnages">Voir les personnages</Link>
-    <Link to="/favoris">Voir mes favoris</Link>
-    <Link to="/account">Mon compte</Link>
+    <Connected
+      Component={
+        <>
+          <Link to="/favoris">Voir mes favoris</Link>
+          <Link to="/account">Mon compte</Link>
+        </>
+      }
+      hidden
+    />
+    <Connected reverse Component={<Link to='/auth/login'>Se connecter</Link>} />
     <FontAwesomeIcon
       style={{width: "1rem"}}
       icon={theme === "light" ? faMoon : faSun}
@@ -143,10 +156,7 @@ export const Menu = ({theme, setTheme}) => {
   const width = useWindowSize();
   return (
     <>
-      <Connected
-        Component={<>{(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}</>}
-        hidden
-      />
+      {(width < 500) ? <PhoneMenu theme={theme} setTheme={setTheme}/> : <LargeMenu theme={theme} setTheme={setTheme}/>}
       <Background>
         <div style={{height: "5rem"}}/>
         <Outlet/>

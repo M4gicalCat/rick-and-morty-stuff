@@ -12,6 +12,7 @@ import {Title} from "./Title";
 import {getEpisodes} from "./Episode";
 import {usePersonnages} from "../hooks";
 import {CustomLink} from "./CustomLink";
+import {Connected} from "./Connected";
 
 const CardContainer = styled.div`
   height: calc(100% - 2rem);
@@ -88,11 +89,18 @@ const Heart = ({perso, big, style}) => {
   if (favoris === null) return null;
   const isFavorite = favoris.includes(perso.id);
   return (
-    <ActionButton className={isFavorite ? "beating" : undefined} style={{position: "absolute", top: "1rem", right: "1rem", ...style}}>
-      <FontAwesomeIcon icon={isFavorite ? faHeart : faHeartBroken} onClick={() => {
-        dispatch(toggleFavori(perso.id));
-      }} style={{ color: isFavorite  ? "red" : "grey", fontSize: big ? "2rem" : "1.2rem" }}/>
-    </ActionButton>
+    <Connected
+      Component={
+        <>
+          <ActionButton className={isFavorite ? "beating" : undefined} style={{position: "absolute", top: "1rem", right: "1rem", ...style}}>
+            <FontAwesomeIcon icon={isFavorite ? faHeart : faHeartBroken} onClick={() => {
+              dispatch(toggleFavori(perso.id));
+            }} style={{ color: isFavorite  ? "red" : "grey", fontSize: big ? "2rem" : "1.2rem" }}/>
+          </ActionButton>
+        </>
+      }
+      hidden
+    />
   );
 }
 
