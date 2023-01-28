@@ -13,6 +13,7 @@ export const Connected = ({Component, hidden, reverse}) => {
       <Info>
         <h1>Vous y êtes presque</h1>
         <p>Vous devez <Link to={"/auth/login"}>vous connecter</Link> pour accéder à cette page.</p>
+        <p>Vous pouvez aussi <Link to={"/"}>retourner à l'accueil</Link> pour voir le site de manière anonyme.</p>
       </Info>
     </Container>
   );

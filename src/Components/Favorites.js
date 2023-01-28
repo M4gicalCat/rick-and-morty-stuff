@@ -47,7 +47,7 @@ export const Favorites = () => {
         </div>
       )}
       <Container>
-        {personnages.map(favori => <SmallPersonnage key={favori.id} card perso={favori} />)}
+        {personnages.map(favori => <SmallPersonnage key={favori.id} card perso={favori} />).reverse()}
       </Container>
     </div>
   );

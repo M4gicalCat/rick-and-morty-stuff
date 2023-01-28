@@ -22,6 +22,9 @@ const InfoContainer = styled.div`
   & a:hover {
     color: ${({theme}) => theme.color.info.hover};
   }
+  & p {
+    text-align: justify;
+  }
 `;
 
 const Circle = styled.div`
