@@ -26,11 +26,11 @@ export const Accueil = () => {
     const {info, results} = (await fetch('https://rickandmortyapi.com/api/character').then(r => r.json()));
     dispatch(addPersonnages(results));
     const {count} = info;
-    const randoms = [];
-    for (let i = 0; i < 5; i++) {
-      randoms.push(Math.floor(Math.random() * count));
+    const randoms = new Set();
+    while (randoms.size < 5) {
+      randoms.add(Math.floor(Math.random() * count));
     }
-    const persos = await getPersonnages(randoms);
+    const persos = await getPersonnages([...randoms.values()]);
     setRandoms(persos.filter(p => p));
     setLoading(l => ({...l, persos: false}));
   };
