@@ -74,27 +74,27 @@ const PhoneMenu = ({theme, setTheme}) => {
 
   return (
     <SmallNav>
-      <Connected Component={open ? (
-          <>
-            <FontAwesomeIcon icon={faX} onClick={() => setOpen(false)}/>
-            <List>
-              <Link onClick={() => setOpen(false)} to="/">Accueil</Link>
-              <Link onClick={() => setOpen(false)} to="/episode">Episodes</Link>
-              <Link onClick={() => setOpen(false)} to="/personnages">Personnages</Link>
-              <Connected Component={
-                <>
-                  <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
-                  <Link onClick={() => setOpen(false)} to="/account">Mon compte</Link>
-                </>
-              } hidden />
-              <Connected reverse Component={<Link to='/login' onClick={() => setOpen(false)}>Se connecter</Link>} />
-            </List>
-          </>
-        ) : (
-          <>
-            <FontAwesomeIcon icon={faBars} onClick={() => setOpen(true)}/>
-          </>
-        )}/>
+      {open ? (
+        <>
+          <FontAwesomeIcon icon={faX} onClick={() => setOpen(false)}/>
+          <List>
+            <Link onClick={() => setOpen(false)} to="/">Accueil</Link>
+            <Link onClick={() => setOpen(false)} to="/episode">Episodes</Link>
+            <Link onClick={() => setOpen(false)} to="/personnages">Personnages</Link>
+            <Connected Component={
+              <>
+                <Link onClick={() => setOpen(false)} to="/favoris">Favoris</Link>
+                <Link onClick={() => setOpen(false)} to="/account">Mon compte</Link>
+              </>
+            } hidden />
+            <Connected reverse Component={<Link to='/auth/login' onClick={() => setOpen(false)}>Se connecter</Link>} />
+          </List>
+        </>
+      ) : (
+        <>
+          <FontAwesomeIcon icon={faBars} onClick={() => setOpen(true)}/>
+        </>
+      )}
       <FontAwesomeIcon
         icon={theme === "light" ? faMoon : faSun}
         onClick={() => setTheme(old => old === "light" ? 'dark' : 'light')}

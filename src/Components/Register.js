@@ -9,7 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye} from "@fortawesome/free-solid-svg-icons/faEye";
 import {faEyeSlash} from "@fortawesome/free-solid-svg-icons/faEyeSlash";
 import {CustomLink} from "./CustomLink";
-import {Link, redirect} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {Spinner} from "./Spinner";
 import {ErrorMessage} from "./ErrorMessage";
 
@@ -74,30 +74,8 @@ export const Register = ({newUser}) => {
   const [loading, setLoading] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [error, setError] = useState("");
+  const redirect = useNavigate();
   const link = useRef();
-
-  useEffect(() => {
-    if (auth.currentUser?.uid) {
-      redirect("/");
-      // redirect doesn't work for some reason
-      link.current?.click();
-    }
-  }, [auth.currentUser?.uid, link.current]);
-
-  useEffect(() => setError(""), [email, password, newUser]);
-
-  useEffect(() => {
-    // pressing enter would show the password, which is not what we want
-    document.onkeydown = (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        register();
-      }
-    };
-    return () => {
-      document.onkeydown = null;
-    }
-  }, []);
 
   const register = () => {
     if (loading || [password.length, email.length].includes(0)) return;
@@ -119,8 +97,32 @@ export const Register = ({newUser}) => {
     })();
   };
 
+  useEffect(() => {
+    if (auth.currentUser?.uid) {
+      redirect("/");
+    }
+  }, [auth.currentUser?.uid, link.current]);
+
+  useEffect(() => setError(""), [email, password, newUser]);
+
+  useEffect(() => {
+    // pressing enter would show the password, which is not what we want
+    document.onkeydown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        register();
+      }
+    };
+    return () => {
+      document.onkeydown = null;
+    }
+  }, []);
+
   return (
-    <Container onSubmit={e => e.preventDefault()}>
+    <Container onSubmit={e => {
+      e.preventDefault();
+      register();
+    }}>
       <Title fullWidth border style={{paddingBottom: "1rem"}}>{newUser ? "Créer un compte" : "Se connecter"}</Title>
       <ErrorMessage code={error}/>
       <input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -132,7 +134,6 @@ export const Register = ({newUser}) => {
       </label>
       <CustomLink style={{fontSize: ".9rem", marginBottom: ".5rem"}} to={newUser ? "/auth/login" : "/auth/"}>{newUser ? "Se connecter" : "Créer un compte"}</CustomLink>
       <Button onClick={register}>{loading ? <Spinner /> : (newUser ? "Créer un compte" : "Se connecter")}</Button>
-      {auth.currentUser?.uid && <Link ref={link} to={"/"} style={{visibility: "hidden"}}>Home</Link>}
     </Container>
   );
 };
