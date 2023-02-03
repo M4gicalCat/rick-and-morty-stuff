@@ -78,7 +78,11 @@ export const Register = ({newUser}) => {
   const link = useRef();
 
   const register = () => {
-    if (loading || [password.length, email.length].includes(0)) return;
+    if (loading) return;
+    if ([password.length, email.length].includes(0)) {
+      console.log({password, email});
+      return setError("Veuillez remplir tous les champs");
+    }
     setError("");
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) return setError("L'adresse email n'est pas valide");
@@ -107,15 +111,8 @@ export const Register = ({newUser}) => {
 
   useEffect(() => {
     // pressing enter would show the password, which is not what we want
-    document.onkeydown = (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        register();
-      }
-    };
-    return () => {
-      document.onkeydown = null;
-    }
+    document.onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); } };
+    return () => document.onkeydown = null;
   }, []);
 
   return (
@@ -125,9 +122,9 @@ export const Register = ({newUser}) => {
     }}>
       <Title fullWidth border style={{paddingBottom: "1rem"}}>{newUser ? "Créer un compte" : "Se connecter"}</Title>
       <ErrorMessage code={error}/>
-      <input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} onInput={(e) => setEmail(e.target.value)} />
       <label style={{position: "relative"}}>
-        <input autoComplete={"password"} placeholder="Mot de passe" type={reveal ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input autoComplete={"password"} placeholder="Mot de passe" type={reveal ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} onInput={(e) => setPassword(e.target.value)} />
         <Action onClick={() => setReveal(o => !o)}>
           <Icon icon={reveal ? faEyeSlash : faEye}/>
         </Action>

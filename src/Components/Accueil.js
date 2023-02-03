@@ -40,7 +40,6 @@ export const Accueil = () => {
     getPersonnages(allFavs.slice(-5)).then(f => {
       setLoading(l => ({...l, favoris: false}));
       setFavoris(f);
-      setLoading(l => ({...l, favoris: false}));
     });
   }, [allFavs]);
 
